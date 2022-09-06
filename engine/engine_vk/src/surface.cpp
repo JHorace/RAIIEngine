@@ -1,19 +1,19 @@
-//
-// Created by James on 8/31/2022.
+// Created 2022
+// James Sumihiro and Bryan Johnson
 //
 
 #include "surface.hpp"
 
-namespace Forge::Renderer
+namespace Forge
 {
-  vk::SurfaceCapabilitiesKHR Surface::GetSurfaceCapabilities(const Device::DeviceWrapper & device) const
+  vk::SurfaceCapabilitiesKHR Surface::GetSurfaceCapabilities(const Device & device) const
   {
-    return device._physicalDevice.getSurfaceCapabilitiesKHR(*_handle);
+    return device._vkPhysicalDevice.getSurfaceCapabilitiesKHR(*_vkSurface);
   }
 
-  vk::PresentModeKHR Surface::GetPreferredPresentMode(const Device::DeviceWrapper & device) const
+  vk::PresentModeKHR Surface::GetPreferredPresentMode(const Device & device) const
   {
-    auto presentModes = device._physicalDevice.getSurfacePresentModesKHR(*_handle);
+    auto presentModes = device._vkPhysicalDevice.getSurfacePresentModesKHR(*_vkSurface);
 
     if (std::find(presentModes.begin(), presentModes.end(), vk::PresentModeKHR::eMailbox) != presentModes.end())
       return vk::PresentModeKHR::eMailbox;
@@ -23,9 +23,9 @@ namespace Forge::Renderer
     return vk::PresentModeKHR::eFifo;
   }
 
-  vk::SurfaceFormatKHR Surface::GetPreferredImageFormat(const Device::DeviceWrapper & device) const
+  vk::SurfaceFormatKHR Surface::GetPreferredImageFormat(const Device & device) const
   {
-    auto availableFormats = device._physicalDevice.getSurfaceFormatsKHR(*_handle);
+    auto availableFormats = device._vkPhysicalDevice.getSurfaceFormatsKHR(*_vkSurface);
 
     for (const auto & format : availableFormats)
       if ((format.format == vk::Format::eB8G8R8A8Srgb) && (format.colorSpace == vk::ColorSpaceKHR::eSrgbNonlinear))
@@ -34,7 +34,7 @@ namespace Forge::Renderer
     return vk::SurfaceFormatKHR();
   }
 
-  uint32_t Surface::GetMinImageCount(const Device::DeviceWrapper & device) const
+  uint32_t Surface::GetMinImageCount(const Device & device) const
   {
     vk::SurfaceCapabilitiesKHR capabilities = GetSurfaceCapabilities(device);
 

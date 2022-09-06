@@ -1,18 +1,22 @@
-//
-// Created by James on 8/30/2022.
+// Created 2022
+// James Sumihiro and Bryan Johnson
 //
 
 #ifndef RAIIENGINE_I_ENGINE_FACTORY_HPP
 #define RAIIENGINE_I_ENGINE_FACTORY_HPP
 
-class IEngine;
-
-class IEngineFactory
+namespace Forge
 {
-public:
-    virtual ~IEngineFactory() {};
-    virtual IEngine* CreateEngine() = 0;
-};
+  class IEngine;
 
+  class IEngineFactory
+  {
+  public:
+    virtual ~IEngineFactory()
+    {
+    };
+    virtual IEngine * CreateEngine() = 0;
+  };
+}
 
 #endif //RAIIENGINE_I_ENGINE_FACTORY_HPP

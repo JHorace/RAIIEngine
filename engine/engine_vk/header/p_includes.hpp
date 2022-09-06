@@ -1,5 +1,5 @@
-//
-// Created by James on 9/4/2022.
+// Created 2022
+// James Sumihiro
 //
 
 #ifndef RAIIENGINE_P_INCLUDES_HPP

@@ -1,5 +1,5 @@
-//
-// Created by James on 8/31/2022.
+// Created 2022
+// James Sumihiro and Bryan Johnson
 //
 
 #ifndef RAIIENGINE_RENDERER_HPP
@@ -8,7 +8,7 @@
 #include "p_includes.hpp"
 #include "swapchain.hpp"
 
-namespace Forge::Renderer
+namespace Forge
 {
   class Renderer
   {

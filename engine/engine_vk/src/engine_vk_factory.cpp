@@ -1,11 +1,14 @@
-//
-// Created by James on 8/30/2022.
+// Created 2022
+// James Sumihiro and Bryan Johnson
 //
 
-#include "../include/engine_vk_factory.hpp"
-#include "../include/engine_vk.hpp"
+#include "engine_vk_factory.hpp"
 #include "engine_vk.hpp"
 
-IEngine *EngineVKFactory::CreateEngine() {
+namespace Forge
+{
+  IEngine * EngineVKFactory::CreateEngine()
+  {
     return new Forge::EngineVK();
+  }
 }

@@ -1,5 +1,5 @@
-//
-// Created by James on 9/4/2022.
+// Created 2022
+// James Sumihiro and Bryan Johnson
 //
 
 #include "debug.hpp"
@@ -9,46 +9,36 @@
 
 namespace Forge
 {
-  namespace Debug
+  Logger::Logger(vk::raii::Instance const & instance) :
+    _messenger(CreateDebugUtilsMessenger(instance))
   {
+    _info = spdlog::stdout_color_mt("info");
+    _error = spdlog::stderr_color_mt("error");
 
-    vk::raii::DebugUtilsMessengerEXT CreateDebugUtilsMessenger(vk::raii::Instance const& instance, Logger * logger);
+  }
 
-    Logger::Logger(vk::raii::Instance const &instance) : _messenger(CreateDebugUtilsMessenger(instance, this))
+  vk::Bool32 Forge::Logger::debugCallback(
+    VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
+    VkDebugUtilsMessageTypeFlagsEXT messageType,
+    const VkDebugUtilsMessengerCallbackDataEXT * pCallbackData,
+    void * pUserData)
+  {
+    auto logger = static_cast<Logger *>(pUserData);
+    logger->_info->info("Test message");
+    return 0;
+  }
+
+  vk::raii::DebugUtilsMessengerEXT Logger::CreateDebugUtilsMessenger(vk::raii::Instance const & instance)
+  {
+    vk::DebugUtilsMessengerCreateInfoEXT debugMessengerCI
     {
-      _info = spdlog::stdout_color_mt("info");
-      _error = spdlog::stderr_color_mt("error");
+      .messageSeverity = MESSAGE_SEVERITY,
+      .messageType = MESSAGE_TYPE,
+      .pfnUserCallback = &Forge::Logger::debugCallback,
+      .pUserData = this
+    };
 
-    }
-
-    vk::Bool32 Forge::Debug::Logger::debugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
-                                                   VkDebugUtilsMessageTypeFlagsEXT messageType,
-                                                   const VkDebugUtilsMessengerCallbackDataEXT *pCallbackData,
-                                                   void *pUserData)
-    {
-      auto logger = static_cast<Logger*>(pUserData);
-      logger->_info->info("Test message");
-      return 0;
-    }
-
-    vk::raii::DebugUtilsMessengerEXT CreateDebugUtilsMessenger(vk::raii::Instance const& instance, Logger * logger)
-    {
-
-      vk::DebugUtilsMessengerCreateInfoEXT debugMessengerCI{
-        .messageSeverity = vk::DebugUtilsMessageSeverityFlagBitsEXT::eError
-                           | vk::DebugUtilsMessageSeverityFlagBitsEXT::eWarning,
-        .messageType = vk::DebugUtilsMessageTypeFlagBitsEXT::eGeneral
-                       | vk::DebugUtilsMessageTypeFlagBitsEXT::eValidation
-                       | vk::DebugUtilsMessageTypeFlagBitsEXT::ePerformance,
-        .pfnUserCallback = &Forge::Debug::Logger::debugCallback,
-        .pUserData = logger
-      };
-
-      return instance.createDebugUtilsMessengerEXT(debugMessengerCI);
-    }
-
-
-
+    return instance.createDebugUtilsMessengerEXT(debugMessengerCI);
   }
 }
 

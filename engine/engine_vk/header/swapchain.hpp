@@ -9,14 +9,14 @@
 #include "surface.hpp"
 #include "device_wrapper.hpp"
 
-namespace Forge::Renderer
+namespace Forge
 {
   class Swapchain
   {
   public:
-    Swapchain(const Device::DeviceWrapper & deviceWrapper, const Renderer::Surface & surface);
+    Swapchain(const Device & device, const Surface & surface);
   private:
-    vk::raii::SwapchainKHR _handle;
+    vk::raii::SwapchainKHR _vkSwapchain;
   };
 }
 

@@ -1,8 +1,8 @@
-//
-// Created by James on 8/27/2022.
+// Created 2022
+// James Sumihiro and Bryan Johnson
 //
 
-#include "../include/engine_vk.hpp"
+#include "engine_vk.hpp"
 #include <iostream>
 
 #ifndef NDEBUG
@@ -27,8 +27,7 @@ uint32_t FindQueueFamily(vk::raii::PhysicalDevice const& physDevice);
 
 
 Forge::EngineVK::EngineVK()
-: _instance(CreateInstance(_context, std::vector<const char *>(), std::vector<const char *>()))
-, _physDevice(ChoosePhysicalDevice(_instance, vk::raii::PhysicalDevices(_instance)))
+: _vkInstance(CreateInstance(_vkContext, std::vector<const char *>(), std::vector<const char *>()))
 {
     std::cout << "NoCopy member initialization successful" << std::endl;
 }

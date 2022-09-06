@@ -1,14 +1,14 @@
-//
-// Created by James on 8/27/2022.
+// Created 2022
+// James Sumihiro and Bryan Johnson
 //
 
 #include "engine_vk_factory.hpp"
 
 int main(void)
 {
-    EngineVKFactory factory;
+    Forge::EngineVKFactory factory;
 
-    IEngine* engine = factory.CreateEngine();
+    Forge::IEngine * engine = factory.CreateEngine();
 
     return 0;
 }
