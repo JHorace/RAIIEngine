@@ -85,7 +85,7 @@ vk::raii::Device CreateDevice(vk::raii::PhysicalDevice const& physDevice,
                               std::vector<const char *> deviceExtensions,
                               std::vector<const char *> deviceLayers)
 {
-
+  return vk::raii::Device(nullptr);
 }
 
 uint32_t FindQueueFamily(vk::raii::PhysicalDevice const& physDevice)

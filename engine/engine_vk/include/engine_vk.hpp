@@ -7,6 +7,7 @@
 
 #include "i_engine.hpp"
 #include "p_includes.hpp"
+#include "renderer.hpp"
 
 namespace Forge {
 
@@ -20,6 +21,8 @@ namespace Forge {
     vk::raii::Context _context;
     vk::raii::Instance _instance;
     vk::raii::PhysicalDevice _physDevice;
+
+    std::vector<Renderer::Renderer> _renderers;
 
     //   vk::raii::Device _device;
 
