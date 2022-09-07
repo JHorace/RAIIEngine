@@ -6,7 +6,7 @@ cmake_minimum_required(VERSION 3.8)
 
 include("cmake/CPM.cmake")
 
-#project("RAIIEngine" LANGUAGES CXX)
+project("RAIIEngine" LANGUAGES CXX)
 
 CPMAddPackage("gh:gabime/spdlog@1.10.0")
 CPMAddPackage(NAME SDL2

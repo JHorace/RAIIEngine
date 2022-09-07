@@ -10,5 +10,7 @@ int main(void)
 
     Forge::IEngine * engine = factory.CreateEngine();
 
+    system("pause");
+
     return 0;
 }

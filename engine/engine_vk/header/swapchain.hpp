@@ -7,7 +7,7 @@
 
 #include "p_includes.hpp"
 #include "surface.hpp"
-#include "device_wrapper.hpp"
+#include "device.hpp"
 
 namespace Forge
 {

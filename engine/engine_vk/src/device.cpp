@@ -2,7 +2,7 @@
 // James Sumihiro and Bryan Johnson
 //
 
-#include "device_wrapper.hpp"
+#include "device.hpp"
 
 namespace Forge
 {
@@ -43,7 +43,7 @@ namespace Forge
 
     vk::DeviceCreateInfo deviceCI{};
     deviceCI.setQueueCreateInfos(deviceQueueCI);
-    deviceCI.setPEnabledExtensionNames(DEFAULT_EXTENSIONS);
+    deviceCI.setPEnabledExtensionNames(DEVICE_EXTENSIONS);
 
     return vk::raii::Device{ physDevice, deviceCI };
   }

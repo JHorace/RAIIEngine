@@ -9,6 +9,9 @@ namespace Forge
 {
   IEngine * EngineVKFactory::CreateEngine()
   {
-    return new Forge::EngineVK();
+    std::vector<const char *> extensions(INSTANCE_EXTENSIONS.begin(), INSTANCE_EXTENSIONS.end());
+    std::vector<const char *> layers(INSTANCE_LAYERS.begin(), INSTANCE_LAYERS.end());
+
+    return new Forge::EngineVK(extensions, layers);
   }
 }

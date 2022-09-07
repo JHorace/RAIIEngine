@@ -11,7 +11,7 @@
 
 namespace Forge
 {
-  inline constexpr std::array<const char *, 2> DEFAULT_EXTENSIONS
+  inline constexpr std::array DEVICE_EXTENSIONS
   {
     "VK_KHR_swapchain",
     "VK_KHR_dynamic_rendering"

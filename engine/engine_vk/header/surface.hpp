@@ -6,7 +6,7 @@
 #define RAIIENGINE_SURFACE_HPP
 
 #include "p_includes.hpp"
-#include "device_wrapper.hpp"
+#include "device.hpp"
 
 namespace Forge
 {

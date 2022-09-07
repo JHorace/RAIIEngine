@@ -5,9 +5,9 @@
 project(engine_vk)
 
 add_library(engine_vk STATIC 
-  src/engine_vk.cpp 
+  src/engine_vk.cpp
   src/engine_vk_factory.cpp
-  src/device_wrapper.cpp
+  src/device.cpp
   src/queue_manager.cpp 
   src/debug.cpp 
   src/renderer.cpp
