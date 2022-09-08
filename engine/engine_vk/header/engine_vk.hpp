@@ -19,12 +19,12 @@ namespace Forge
     void Render() override;
     void AddWindow(void * windowHandle);
   private:
-    vk::DynamicLoader _dl;
     vk::raii::Context _vkContext;
     vk::raii::Instance _vkInstance;
-    Device _device;
+    DeviceManager _deviceManager;
+    //LogicalDevice _device;
 
-    std::vector<Renderer> _renderers;
+    //std::vector<Renderer> _renderers;
   };
 }
 

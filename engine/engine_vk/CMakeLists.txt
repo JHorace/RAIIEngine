@@ -7,13 +7,13 @@ project(engine_vk)
 add_library(engine_vk STATIC 
   src/engine_vk.cpp
   src/engine_vk_factory.cpp
-  src/device.cpp
+    src/logical_device.cpp
   src/queue_manager.cpp 
   src/debug.cpp 
   src/renderer.cpp
   src/swapchain.cpp 
   src/surface.cpp
-)
+    src/device_manager.cpp header/device_manager.hpp)
 
 target_compile_features(engine_vk PRIVATE
         cxx_std_20

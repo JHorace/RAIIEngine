@@ -6,12 +6,12 @@
 
 namespace Forge
 {
-  vk::SurfaceCapabilitiesKHR Surface::GetSurfaceCapabilities(const Device & device) const
+  vk::SurfaceCapabilitiesKHR Surface::GetSurfaceCapabilities(const vk::raii::PhysicalDevice & physDevice) const
   {
-    return device._vkPhysicalDevice.getSurfaceCapabilitiesKHR(*_vkSurface);
+    return physDevice.getSurfaceCapabilitiesKHR(*_vkSurface);
   }
 
-  vk::PresentModeKHR Surface::GetPreferredPresentMode(const Device & device) const
+  vk::PresentModeKHR Surface::GetPreferredPresentMode(const vk::raii::PhysicalDevice & physDevice) const
   {
     auto presentModes = device._vkPhysicalDevice.getSurfacePresentModesKHR(*_vkSurface);
 
@@ -23,7 +23,7 @@ namespace Forge
     return vk::PresentModeKHR::eFifo;
   }
 
-  vk::SurfaceFormatKHR Surface::GetPreferredImageFormat(const Device & device) const
+  vk::SurfaceFormatKHR Surface::GetPreferredImageFormat(const vk::raii::PhysicalDevice & physDevice) const
   {
     auto availableFormats = device._vkPhysicalDevice.getSurfaceFormatsKHR(*_vkSurface);
 
@@ -31,13 +31,19 @@ namespace Forge
       if ((format.format == vk::Format::eB8G8R8A8Srgb) && (format.colorSpace == vk::ColorSpaceKHR::eSrgbNonlinear))
         return format;
 
-    return vk::SurfaceFormatKHR();
+    // No suitable format found.
+    return {};
   }
 
-  uint32_t Surface::GetMinImageCount(const Device & device) const
+  uint32_t Surface::GetMinImageCount(const vk::raii::PhysicalDevice & physDevice) const
   {
-    vk::SurfaceCapabilitiesKHR capabilities = GetSurfaceCapabilities(device);
+    vk::SurfaceCapabilitiesKHR capabilities = GetSurfaceCapabilities(physDevice);
 
     return capabilities.minImageCount;
+  }
+  
+  const vk::raii::SurfaceKHR & Surface::operator*() const
+  {
+    return _vkSurface;
   }
 }

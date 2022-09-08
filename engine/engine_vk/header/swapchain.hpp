@@ -7,14 +7,16 @@
 
 #include "p_includes.hpp"
 #include "surface.hpp"
-#include "device.hpp"
+#include "logical_device.hpp"
 
 namespace Forge
 {
   class Swapchain
   {
   public:
-    Swapchain(const Device & device, const Surface & surface);
+    Swapchain(const vk::raii::PhysicalDevice & physDevice, const LogicalDevice & device, const Surface & surface);
+  
+    const vk::raii::SwapchainKHR & operator*() const;
   private:
     vk::raii::SwapchainKHR _vkSwapchain;
   };
