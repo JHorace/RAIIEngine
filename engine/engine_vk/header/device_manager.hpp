@@ -15,9 +15,14 @@ namespace Forge
   class DeviceManager
   {
   public:
-    DeviceManager(const vk::raii::Instance & instance);
-    const vk::raii::PhysicalDevice & GetPhysicalDevice() const;
+    explicit DeviceManager(vk::raii::PhysicalDevice physicalDevice);
+    const vk::raii::PhysicalDevice & operator*() const;
     
+    unsigned int AddLogicalDevice(
+      std::vector<const char *> extensions,
+      std::vector<const char *> layers);
+    
+    DeviceManager(DeviceManager && other) noexcept = default;
     DeviceManager(const DeviceManager &) = delete;
     DeviceManager operator=(const DeviceManager &) = delete;
   private:

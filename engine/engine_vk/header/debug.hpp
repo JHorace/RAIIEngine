@@ -14,15 +14,6 @@ namespace spdlog
 
 namespace Forge
 {
-  inline constexpr std::array DEBUG_EXTENSIONS
-  {
-    VK_EXT_DEBUG_UTILS_EXTENSION_NAME 
-  };
-
-  inline constexpr std::array DEBUG_LAYERS
-  { 
-    "VK_LAYER_KHRONOS_validation" 
-  };
 
   inline constexpr vk::DebugUtilsMessageSeverityFlagsEXT MESSAGE_SEVERITY
   {

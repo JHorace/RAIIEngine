@@ -13,8 +13,10 @@ namespace Forge
   class Renderer
   {
   public:
+    Renderer(const vk::raii::Device & device,
+             const Surface & surface);
   private:
-    Swapchain swapchain;
+    Swapchain _swapchain;
   };
 }
 

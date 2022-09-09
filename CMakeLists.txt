@@ -2,7 +2,7 @@
 # James Sumihiro and Bryan Johnson
 # RAIIEngine
 
-cmake_minimum_required(VERSION 3.8)
+cmake_minimum_required(VERSION 3.20)
 
 include("cmake/CPM.cmake")
 

@@ -6,4 +6,11 @@
 
 namespace Forge
 {
+  Renderer::Renderer(const vk::raii::Device & device,
+                     const Surface & surface)
+    :
+    _swapchain(device, surface)
+  {
+  
+  }
 }

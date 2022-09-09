@@ -13,10 +13,11 @@ add_library(engine_vk STATIC
   src/renderer.cpp
   src/swapchain.cpp 
   src/surface.cpp
-    src/device_manager.cpp header/device_manager.hpp)
+    src/device_manager.cpp header/device_manager.hpp header/engine_defaults.hpp)
 
 target_compile_features(engine_vk PRIVATE
         cxx_std_20
+        cxx_constexpr
         cxx_aggregate_default_initializers
 )
 

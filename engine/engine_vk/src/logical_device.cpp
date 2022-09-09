@@ -6,11 +6,6 @@
 
 namespace Forge
 {
-  vk::raii::Device CreateDeviceFromPhysicalDevice(
-    vk::raii::PhysicalDevice const & physDevice,
-    vk::DeviceQueueCreateInfo deviceQueueCI,
-    std::vector<const char *> extensions = std::vector<const char *>{},
-    std::vector<const char *> layers = std::vector<const char *>{});
   
   LogicalDevice::LogicalDevice(
     const vk::raii::PhysicalDevice & physDevice,
@@ -18,7 +13,7 @@ namespace Forge
     std::vector<const char *> extensions,
     std::vector<const char *> layers)
     :
-    _vkDevice(CreateDeviceFromPhysicalDevice(physDevice, deviceQueueCI, extensions, layers))
+    _vkDevice{physDevice, CIBuilder(deviceQueueCI, extensions, layers)}
   {
   
   }
@@ -28,17 +23,22 @@ namespace Forge
     return _vkDevice;
   }
   
-  vk::raii::Device CreateDeviceFromPhysicalDevice(
-    vk::raii::PhysicalDevice const & physDevice,
-    vk::DeviceQueueCreateInfo deviceQueueCI,
-    std::vector<const char *> extensions,
-    std::vector<const char *> layers)
+  vk::DeviceCreateInfo LogicalDevice::CIBuilder(
+    vk::DeviceQueueCreateInfo & deviceQueueCI,
+    std::vector<const char *> & extensions,
+    std::vector<const char *> & layers)
   {
     vk::DeviceCreateInfo deviceCI{};
     deviceCI.setQueueCreateInfos(deviceQueueCI);
-    deviceCI.setPEnabledExtensionNames(DEVICE_EXTENSIONS);
+    deviceCI.setPEnabledExtensionNames(extensions);
+    deviceCI.setPEnabledLayerNames(layers);
     
-    return vk::raii::Device{physDevice, deviceCI};
+    return deviceCI;
+  }
+  
+  void LogicalDevice::CreateRendererFromSurface(const Surface & surface)
+  {
+    _renderers.emplace_back(Renderer(_vkDevice, surface));
   }
 }
 

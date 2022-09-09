@@ -6,38 +6,30 @@
 
 namespace Forge
 {
-  
-  vk::SwapchainCreateInfoKHR CIBuilder(const vk::raii::PhysicalDevice & physDevice,
-                                       const Surface & surface)
-  {
-    auto surface_format = surface.GetPreferredImageFormat(physDevice);
-    auto extent = surface.GetSurfaceCapabilities(physDevice).currentExtent;
-    
-    return
-      {
-        .surface = **surface,
-        .minImageCount = surface.GetMinImageCount(physDevice),
-        .imageFormat = surface_format.format,
-        .imageColorSpace = surface_format.colorSpace,
-        .imageExtent = extent,
-        .imageArrayLayers = 1,
-        .imageUsage = vk::ImageUsageFlagBits::eColorAttachment,
-        .imageSharingMode = vk::SharingMode::eExclusive,
-        .presentMode = surface.GetPreferredPresentMode(physDevice)
-      };
-  }
-  
-  Swapchain::Swapchain(const vk::raii::PhysicalDevice & physDevice,
-                       const LogicalDevice & device,
+  Swapchain::Swapchain(const vk::raii::Device & device,
                        const Surface & surface)
     :
-    _vkSwapchain{*device, CIBuilder(physDevice, surface)}
-  {
-  
-  }
+    _vkSwapchain{device, CIBuilder(surface)}
+  {}
   
   const vk::raii::SwapchainKHR & Swapchain::operator*() const
   {
     return _vkSwapchain;
+  }
+  
+  vk::SwapchainCreateInfoKHR Swapchain::CIBuilder(const Surface & surface)
+  {
+    return vk::SwapchainCreateInfoKHR
+      {
+        .surface = **surface,
+        .minImageCount = surface._minImageCount,
+        .imageFormat = surface._surfaceFormat.format,
+        .imageColorSpace = surface._surfaceFormat.colorSpace,
+        .imageExtent = surface.GetExtent(),
+        .imageArrayLayers = 1,
+        .imageUsage = vk::ImageUsageFlagBits::eColorAttachment,
+        .imageSharingMode = vk::SharingMode::eExclusive,
+        .presentMode = surface._presentMode
+      };
   }
 }

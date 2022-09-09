@@ -12,6 +12,16 @@
 
 namespace Forge
 {
+  
+  inline constexpr vk::ApplicationInfo appInfo
+    {
+      .pApplicationName = "TestApp",
+      .applicationVersion = 1,
+      .pEngineName = "Forge",
+      .engineVersion = 1,
+      .apiVersion = VK_API_VERSION_1_3,
+    };
+  
   class EngineVK : public IEngine
   {
   public:
@@ -22,10 +32,7 @@ namespace Forge
   private:
     vk::raii::Context _vkContext;
     vk::raii::Instance _vkInstance;
-    DeviceManager _deviceManager;
-    //LogicalDevice _device;
-
-    //std::vector<Renderer> _renderers;
+    std::vector<DeviceManager> _deviceManagers;
   };
 }
 

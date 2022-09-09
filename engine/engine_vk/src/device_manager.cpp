@@ -7,35 +7,34 @@
 namespace Forge
 {
   
-  bool IsPhysicalDeviceSuitable(vk::raii::PhysicalDevice const & physDevice)
-  {
-    vk::PhysicalDeviceProperties properties = physDevice.getProperties();
-    vk::PhysicalDeviceFeatures features = physDevice.getFeatures();
-    
-    return (properties.deviceType == vk::PhysicalDeviceType::eDiscreteGpu);
-  }
-  
-  vk::raii::PhysicalDevice ChoosePhysicalDevice(vk::raii::Instance const & instance)
-  {
-    auto physDevices = instance.enumeratePhysicalDevices();
-    
-    for (auto const & physDevice: physDevices)
-      if (IsPhysicalDeviceSuitable(physDevice))
-        return physDevice;
-  }
-  
-  DeviceManager::DeviceManager(const vk::raii::Instance & instance)
+  DeviceManager::DeviceManager(vk::raii::PhysicalDevice physicalDevice)
     :
-    _vkPhysicalDevice{ChoosePhysicalDevice(instance)},
-    _queueManager(_vkPhysicalDevice)
+    _vkPhysicalDevice{std::move(physicalDevice)},
+    _queueManager{_vkPhysicalDevice}
   {
-    
-    //logicalDevices.push_back(LogicalDevice(_vkPhysicalDevice, deviceCI, extensions, layers))
+  
   }
   
-  const vk::raii::PhysicalDevice & DeviceManager::GetPhysicalDevice() const
+  const vk::raii::PhysicalDevice & DeviceManager::operator*() const
   {
     return _vkPhysicalDevice;
+  }
+  
+  unsigned int DeviceManager::AddLogicalDevice(
+    std::vector<const char *> extensions,
+    std::vector<const char *> layers)
+  {
+    auto queueFamilyIndex = _queueManager.FindQueueFamilyIndex(vk::QueueFlagBits::eGraphics);
+    float queuePriority = 0;
+    
+    vk::DeviceQueueCreateInfo deviceQueueCI
+      {
+        .queueFamilyIndex = queueFamilyIndex.value(),
+        .queueCount = 1,
+        .pQueuePriorities = &queuePriority
+      };
+    logicalDevices.emplace_back(LogicalDevice{_vkPhysicalDevice, deviceQueueCI, extensions, layers});
+    return logicalDevices.size() - 1;
   }
   
 }

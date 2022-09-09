@@ -6,37 +6,29 @@
 
 #include <iostream>
 
-#include "debug.hpp"
+#include "engine_defaults.hpp"
 #include "engine_vk.hpp"
 
 VULKAN_HPP_DEFAULT_DISPATCH_LOADER_DYNAMIC_STORAGE
 
 namespace Forge
 {
-  
-  bool CheckValidationLayerSupport(std::vector<const char *> const & validationLayers);
-  
-  void EnableDebugValidation(
-    std::vector<const char *> & extensions,
-    std::vector<const char *> & layers
-  );
-  
-  vk::raii::Instance CreateInstance(
-    vk::raii::Context const & context,
-    std::vector<const char *> instanceLayers,
-    std::vector<const char *> instanceExtensions);
-  
-  vk::raii::Device CreateDevice(
-    vk::raii::PhysicalDevice const & physDevice,
-    std::vector<const char *> deviceExtensions,
-    std::vector<const char *> deviceLayers);
-  
-  uint32_t FindQueueFamily(vk::raii::PhysicalDevice const & physDevice);
-  
-  vk::raii::Context CreateContext();
-  
-  // End forward declarations
-  
+  //bool IsPhysicalDeviceSuitable(vk::raii::PhysicalDevice const & physDevice)
+  //{
+  //  vk::PhysicalDeviceProperties properties = physDevice.getProperties();
+  //  vk::PhysicalDeviceFeatures features = physDevice.getFeatures();
+  //
+  //  return (properties.deviceType == vk::PhysicalDeviceType::eDiscreteGpu);
+  //}
+  //
+  //vk::raii::PhysicalDevice ChoosePhysicalDevice(vk::raii::Instance const & instance)
+  //{
+  //  auto physDevices = instance.enumeratePhysicalDevices();
+  //
+  //  for (auto const & physDevice: physDevices)
+  //    if (IsPhysicalDeviceSuitable(physDevice))
+  //      return physDevice;
+  //}
   
   EngineVK::EngineVK(std::vector<const char *> extensions,
                      std::vector<const char *> layers)
@@ -45,7 +37,13 @@ namespace Forge
     _vkInstance{CreateInstance(_vkContext, extensions, layers)},
     _deviceManager{_vkInstance}
   {
-    std::cout << "NoCopy member initialization successful" << std::endl;
+    // Create a DeviceManager for each physical device.
+    vk::raii::PhysicalDevices physDevices{_vkInstance};
+    for (auto & physicalDevice : physDevices)
+      _deviceManagers.emplace_back(DeviceManager(physicalDevice));
+    
+    const std::vector<const char *> device_extensions{DEFAULT_DEVICE_EXTENSIONS.begin(), DEFAULT_DEVICE_EXTENSIONS.end()};
+    _deviceManagers[0].AddLogicalDevice(device_extensions, layers);
   }
   
   void EngineVK::Render()
@@ -63,9 +61,9 @@ namespace Forge
     return vk::raii::Context{};
   }
   
-  bool CheckValidationLayerSupport(const vk::raii::Context & context, std::vector<const char *> const & validationLayers)
+  bool EngineVK::CheckValidationLayerSupport(std::vector<const char *> const & validationLayers)
   {
-    auto availableInstanceLayers = context.enumerateInstanceLayerProperties();
+    auto availableInstanceLayers = _vkContext.enumerateInstanceLayerProperties();
     
     for (const auto & requiredLayer: validationLayers)
     {
@@ -80,64 +78,6 @@ namespace Forge
     }
     
     return true;
-  }
-  
-  void EnableDebugValidation(std::vector<const char *> & extensions,
-                             std::vector<const char *> & layers)
-  {
-    extensions.insert(extensions.end(), DEBUG_EXTENSIONS.begin(), DEBUG_EXTENSIONS.end());
-    layers.insert(layers.end(), DEBUG_LAYERS.begin(), DEBUG_LAYERS.end());
-  }
-  
-  vk::raii::Instance CreateInstance(
-    vk::raii::Context const & context,
-    std::vector<const char *> extensions,
-    std::vector<const char *> layers)
-  {
-    
-    if (DEBUG_LOGGING)
-    {
-      EnableDebugValidation(extensions, layers);
-      CheckValidationLayerSupport(context, layers);
-    }
-    
-    vk::ApplicationInfo appInfo
-      {
-        .pApplicationName = "test",
-        .applicationVersion = 1,
-        .pEngineName = "Forge",
-        .engineVersion = 1,
-        .apiVersion = VK_API_VERSION_1_3,
-      };
-    
-    vk::InstanceCreateInfo instanceCI
-      {
-        .pApplicationInfo = &appInfo
-      };
-    instanceCI.setPEnabledExtensionNames(extensions);
-    instanceCI.setPEnabledLayerNames(layers);
-    
-    return {vk::raii::Instance(context, instanceCI)};
-    
-  }
-  
-  
-  vk::raii::Device CreateDevice(vk::raii::PhysicalDevice const & physDevice,
-                                std::vector<const char *> deviceExtensions,
-                                std::vector<const char *> deviceLayers)
-  {
-    return vk::raii::Device(nullptr);
-  }
-  
-  uint32_t FindQueueFamily(vk::raii::PhysicalDevice const & physDevice)
-  {
-    auto queueFamilyProperties = physDevice.getQueueFamilyProperties();
-    
-    for (uint32_t i = 0; i < queueFamilyProperties.size(); ++i)
-      if (queueFamilyProperties[i].queueFlags & (vk::QueueFlagBits::eGraphics | vk::QueueFlagBits::eCompute))
-        return i;
-    
-    return 0;
   }
   
 }

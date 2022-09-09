@@ -47,4 +47,20 @@ namespace Forge
   {
     return _vkSurface;
   }
+  
+  Surface::Surface(const vk::raii::PhysicalDevice & physicalDevice,
+                   vk::raii::SurfaceKHR surface):
+    _vkSurface(std::move(surface)),
+    _surfaceCapabilities(GetSurfaceCapabilities(physicalDevice)),
+    _presentMode(GetPreferredPresentMode(physicalDevice)),
+    _surfaceFormat(GetPreferredImageFormat(physicalDevice)),
+    _minImageCount(GetMinImageCount(physicalDevice))
+  {
+  
+  }
+  
+  const vk::Extent2D & Surface::GetExtent() const
+  {
+    return _extent;
+  }
 }
