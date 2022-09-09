@@ -8,6 +8,7 @@
 #include "i_engine.hpp"
 #include "p_includes.hpp"
 #include "renderer.hpp"
+#include "device_manager.hpp"
 
 namespace Forge
 {

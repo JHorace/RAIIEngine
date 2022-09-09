@@ -13,7 +13,8 @@ namespace Forge
 
   vk::PresentModeKHR Surface::GetPreferredPresentMode(const vk::raii::PhysicalDevice & physDevice) const
   {
-    auto presentModes = device._vkPhysicalDevice.getSurfacePresentModesKHR(*_vkSurface);
+
+    auto presentModes = physDevice.getSurfacePresentModesKHR(*_vkSurface);
 
     if (std::find(presentModes.begin(), presentModes.end(), vk::PresentModeKHR::eMailbox) != presentModes.end())
       return vk::PresentModeKHR::eMailbox;
@@ -25,7 +26,7 @@ namespace Forge
 
   vk::SurfaceFormatKHR Surface::GetPreferredImageFormat(const vk::raii::PhysicalDevice & physDevice) const
   {
-    auto availableFormats = device._vkPhysicalDevice.getSurfaceFormatsKHR(*_vkSurface);
+    auto availableFormats = physDevice.getSurfaceFormatsKHR(*_vkSurface);
 
     for (const auto & format : availableFormats)
       if ((format.format == vk::Format::eB8G8R8A8Srgb) && (format.colorSpace == vk::ColorSpaceKHR::eSrgbNonlinear))
