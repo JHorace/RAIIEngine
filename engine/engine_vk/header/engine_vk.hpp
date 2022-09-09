@@ -30,6 +30,11 @@ namespace Forge
     void Render() override;
     void AddWindow(void * windowHandle);
   private:
+    vk::InstanceCreateInfo CIBuilder(const vk::ApplicationInfo * appInfo,
+                                     std::vector<const char *>& extensions,
+                                     std::vector<const char *>& layers);
+    bool CheckValidationLayerSupport(std::vector<const char *> const & validationLayers);
+
     vk::raii::Context _vkContext;
     vk::raii::Instance _vkInstance;
     std::vector<DeviceManager> _deviceManagers;

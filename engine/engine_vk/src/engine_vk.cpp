@@ -2,14 +2,10 @@
 // James Sumihiro and Bryan Johnson
 //
 
-#define VULKAN_HPP_DISPATCH_LOADER_DYNAMIC 1
-
 #include <iostream>
 
 #include "engine_defaults.hpp"
 #include "engine_vk.hpp"
-
-VULKAN_HPP_DEFAULT_DISPATCH_LOADER_DYNAMIC_STORAGE
 
 namespace Forge
 {
@@ -34,8 +30,7 @@ namespace Forge
                      std::vector<const char *> layers)
     :
     _vkContext{},
-    _vkInstance{CreateInstance(_vkContext, extensions, layers)},
-    _deviceManager{_vkInstance}
+    _vkInstance{_vkContext, CIBuilder(&appInfo, extensions, layers)}
   {
     // Create a DeviceManager for each physical device.
     vk::raii::PhysicalDevices physDevices{_vkInstance};
@@ -56,10 +51,28 @@ namespace Forge
     //_renderers.push_back(Renderer());
   }
   
-  vk::raii::Context CreateContext()
+  
+  vk::InstanceCreateInfo EngineVK::CIBuilder(const vk::ApplicationInfo * appInfo,
+                                             std::vector<const char *> & extensions,
+                                             std::vector<const char *> & layers)
   {
-    return vk::raii::Context{};
+    if (DEBUG_LOGGING)
+    {
+      // Add debug layers and extensions
+      layers.insert(layers.end(), DEBUG_LAYERS.begin(), DEBUG_LAYERS.end());
+      extensions.insert(extensions.end(), DEBUG_EXTENSIONS.begin(), DEBUG_EXTENSIONS.end());
+      
+      CheckValidationLayerSupport(layers);
+    }
+    
+    vk::InstanceCreateInfo instanceCI{.pApplicationInfo = appInfo};
+    
+    instanceCI.setPEnabledExtensionNames(extensions);
+    instanceCI.setPEnabledLayerNames(layers);
+    
+    return instanceCI;
   }
+  
   
   bool EngineVK::CheckValidationLayerSupport(std::vector<const char *> const & validationLayers)
   {
