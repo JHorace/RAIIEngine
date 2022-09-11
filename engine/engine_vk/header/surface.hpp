@@ -13,7 +13,7 @@ namespace Forge
   {
   public:
     // TODO: Pass raw window handle instead of surface.
-    Surface(const vk::raii::PhysicalDevice & physicalDevice, vk::raii::SurfaceKHR surface);
+    Surface(const vk::raii::PhysicalDevice & physicalDevice, vk::raii::SurfaceKHR && surface);
     
     const vk::Extent2D & GetExtent() const;
   

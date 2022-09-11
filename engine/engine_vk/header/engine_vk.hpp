@@ -28,7 +28,7 @@ namespace Forge
     EngineVK(std::vector<const char *> extensions, std::vector<const char *> layers);
 
     void Render() override;
-    void AddWindow(void * windowHandle);
+    virtual void AddWindow(void * window) final;
   private:
     vk::InstanceCreateInfo CIBuilder(const vk::ApplicationInfo * appInfo,
                                      std::vector<const char *>& extensions,

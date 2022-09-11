@@ -37,4 +37,9 @@ namespace Forge
     return logicalDevices.size() - 1;
   }
   
+  void DeviceManager::AddSurface(vk::raii::SurfaceKHR && surfaceHandle)
+  {
+    Surface surface(_vkPhysicalDevice, std::move(surfaceHandle));
+    logicalDevices[0].CreateRendererFromSurface(surface);
+  }
 }

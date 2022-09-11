@@ -49,7 +49,7 @@ namespace Forge
   }
   
   Surface::Surface(const vk::raii::PhysicalDevice & physicalDevice,
-                   vk::raii::SurfaceKHR surface):
+                   vk::raii::SurfaceKHR && surface):
     _vkSurface(std::move(surface)),
     _surfaceCapabilities(GetSurfaceCapabilities(physicalDevice)),
     _presentMode(GetPreferredPresentMode(physicalDevice)),

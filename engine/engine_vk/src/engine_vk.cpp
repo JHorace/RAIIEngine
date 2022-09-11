@@ -2,10 +2,15 @@
 // James Sumihiro and Bryan Johnson
 //
 
+#define VULKAN_HPP_TYPESAFE_CONVERSION 1
+
 #include <iostream>
+#include "SDL2/SDL.h"
+#include "SDL2/SDL_vulkan.h"
 
 #include "engine_defaults.hpp"
 #include "engine_vk.hpp"
+
 
 namespace Forge
 {
@@ -34,7 +39,7 @@ namespace Forge
   {
     // Create a DeviceManager for each physical device.
     vk::raii::PhysicalDevices physDevices{_vkInstance};
-    for (auto & physicalDevice : physDevices)
+    for (auto & physicalDevice: physDevices)
       _deviceManagers.emplace_back(DeviceManager(physicalDevice));
     
     const std::vector<const char *> device_extensions{DEFAULT_DEVICE_EXTENSIONS.begin(), DEFAULT_DEVICE_EXTENSIONS.end()};
@@ -44,11 +49,6 @@ namespace Forge
   void EngineVK::Render()
   {
   
-  }
-  
-  void EngineVK::AddWindow(void * windowHandle)
-  {
-    //_renderers.push_back(Renderer());
   }
   
   
@@ -93,4 +93,12 @@ namespace Forge
     return true;
   }
   
+  void EngineVK::AddWindow(void * window)
+  {
+    //vk::SurfaceKHR surfaceHandle;
+    //SDL_Vulkan_CreateSurface(static_cast<SDL_Window *>(window), *_vkInstance, (VkSurfaceKHR *)(&surfaceHandle));
+    //vk::raii::SurfaceKHR raiiSurface(_vkInstance, surfaceHandle);
+    
+    //_deviceManagers[0].AddSurface(std::move(raiiSurface));
+  }
 }

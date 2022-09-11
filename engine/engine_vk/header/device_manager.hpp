@@ -22,6 +22,8 @@ namespace Forge
       std::vector<const char *> extensions,
       std::vector<const char *> layers);
     
+    void AddSurface(vk::raii::SurfaceKHR && surfaceHandle);
+    
     DeviceManager(DeviceManager && other) noexcept = default;
     DeviceManager(const DeviceManager &) = delete;
     DeviceManager operator=(const DeviceManager &) = delete;

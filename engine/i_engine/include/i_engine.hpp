@@ -13,6 +13,7 @@ inline constexpr bool DEBUG_LOGGING = true;
 
 namespace Forge
 {
+  
   class IEngine
   {
   public:
@@ -20,6 +21,7 @@ namespace Forge
     {
     };
     virtual void Render() = 0;
+    virtual void AddWindow(void * window) = 0;
   private:
   };
 }

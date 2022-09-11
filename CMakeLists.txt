@@ -9,21 +9,24 @@ include("cmake/CPM.cmake")
 project("RAIIEngine" LANGUAGES CXX)
 
 CPMAddPackage("gh:gabime/spdlog@1.10.0")
-CPMAddPackage(NAME SDL2
-        VERSION 2.24.0
-        GIT_TAG main
-        GIT_REPOSITORY https://github.com/libsdl-org/SDL.git
-)
+
+CPMAddPackage(NAME glfw
+  VERSION 3.3.8
+  GIT_TAG master
+  GIT_REPOSITORY https://github.com/glfw/glfw.git)
+
+set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
+set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
+set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
 
 find_package(Vulkan REQUIRED FATAL_ERROR)
-find_package(SDL2 REQUIRED)
+find_package(glfw REQUIRED)
 
-IF(${SDL2_FOUND})
-    MESSAGE(STATUS "Found SDL")
-ELSE(${SDL2_FOUND})
-    MESSSAGE(STATUS "Could not find SDL")
-ENDIF(${SDL2_FOUND})
-
+if(glfw)
+  message(GLFW found)
+else()
+  message(GLFW not found)
+endif()
 
 add_subdirectory(engine)
 add_subdirectory(samples)
