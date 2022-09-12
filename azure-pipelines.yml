@@ -16,12 +16,13 @@ strategy:
 pool:
   vmImage: $(imageName)
 
-  steps:
-  - task: CMake@1
-    #displayName: 'Cmake .'
-    inputs:
-      cmakeArgs: '.'
-  - task: CMake@1
-    displayName: '--build . --config Debug'
-    inputs:
-      cmakeArgs: '--build . --config Debug'
+steps:
+- task: CMake@1
+  displayName: 'Cmake .'
+  inputs:
+    cmakeArgs: '.'
+    
+- task: CMake@1
+  displayName: '--build . --config Debug'
+  inputs:
+    cmakeArgs: '--build . --config Debug'
