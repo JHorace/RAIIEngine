@@ -18,9 +18,9 @@ pool:
 
 steps:
 - task: CMake@1
-  displayName: 'Cmake .'
+  displayName: 'Cmake ..'
   inputs:
-    cmakeArgs: '.'
+    cmakeArgs: '..'
     
 - task: CMake@1
   displayName: '--build . --config Debug'
