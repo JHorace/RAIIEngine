@@ -11,5 +11,5 @@ target_compile_features(window_handler PRIVATE
 target_link_libraries(window_handler PRIVATE
   glfw)
 
-target_include_directories(window_handler PRIVATE
-  "glfw/include")
+target_include_directories(window_handler PUBLIC
+        ${glfw_INCLUDE_DIRS})

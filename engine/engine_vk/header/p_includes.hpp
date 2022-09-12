@@ -6,7 +6,7 @@
 #define RAIIENGINE_P_INCLUDES_HPP
 
 #define VULKAN_HPP_NO_CONSTRUCTORS
-
+#include <memory>
 #include <vulkan/vulkan_raii.hpp>
 
 #endif //RAIIENGINE_P_INCLUDES_HPP
