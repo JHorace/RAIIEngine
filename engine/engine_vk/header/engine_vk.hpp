@@ -13,7 +13,7 @@
 namespace Forge
 {
   
-  inline constexpr vk::ApplicationInfo appInfo
+  inline constexpr vk::ApplicationInfo APP_INFO
     {
       .pApplicationName = "TestApp",
       .applicationVersion = 1,
@@ -28,7 +28,7 @@ namespace Forge
     EngineVK(std::vector<const char *> extensions, std::vector<const char *> layers);
 
     void Render() override;
-    virtual void AddWindow(void * window) final;
+    virtual void AddWindow(WindowType window, MultiplexType instance) final;
   private:
     vk::InstanceCreateInfo CIBuilder(const vk::ApplicationInfo * appInfo,
                                      std::vector<const char *>& extensions,

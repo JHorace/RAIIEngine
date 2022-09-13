@@ -34,7 +34,8 @@ namespace Forge
                      std::vector<const char *> layers)
     :
     _vkContext{},
-    _vkInstance{_vkContext, CIBuilder(&appInfo, extensions, layers)}
+    _vkInstance{_vkContext, CIBuilder(&APP_INFO, extensions, layers)},
+    _logger{_vkInstance}
   {
     // Create a DeviceManager for each physical device.
     vk::raii::PhysicalDevices physDevices{_vkInstance};
@@ -92,12 +93,13 @@ namespace Forge
     return true;
   }
   
-  void EngineVK::AddWindow(void * window)
+  void EngineVK::AddWindow(WindowType window, MultiplexType instance)
   {
-    //vk::SurfaceKHR surfaceHandle;
-    //SDL_Vulkan_CreateSurface(static_cast<SDL_Window *>(window), *_vkInstance, (VkSurfaceKHR *)(&surfaceHandle));
-    //vk::raii::SurfaceKHR raiiSurface(_vkInstance, surfaceHandle);
+    vk::Win32SurfaceCreateInfoKHR surfaceCI{
+      .hinstance = instance,
+      .hwnd = window
+    };
     
-    //_deviceManagers[0].AddSurface(std::move(raiiSurface));
+   _deviceManagers[0].AddSurface(_vkInstance.createWin32SurfaceKHR(surfaceCI));
   }
 }

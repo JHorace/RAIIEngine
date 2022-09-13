@@ -5,16 +5,15 @@
 
 #include "engine_vk_factory.hpp"
 #include "i_engine.hpp"
-
+#include "GLFW/glfw3.h"
 
 int main(int argc, char * argv[])
 {
+  glfwInit();
   
   Forge::EngineVKFactory factory;
   
   Forge::IEngine * engine = factory.CreateEngine();
-  
-  //engine->AddWindow(window);
   
   return 0;
 }

@@ -5,6 +5,8 @@
 #ifndef RAIIENGINE_I_ENGINE_HPP
 #define RAIIENGINE_I_ENGINE_HPP
 
+#include "window_handler.hpp"
+
 #ifdef NDEBUG
 inline constexpr bool DEBUG_LOGGING = false;
 #else

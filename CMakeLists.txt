@@ -31,11 +31,8 @@ CPMAddPackage(NAME glfw
 find_package(Vulkan REQUIRED FATAL_ERROR)
 find_package(glfw REQUIRED FATAL_ERROR)
 
-if(${glfw_FOUND})
-    message("FOund glfw")
-    message("${glfw_INCLUDE_DIRS}")
-else()
-    message("Not found")
+if(!${glfw_FOUND})
+    message("GLFW not found")
 endif()
 
 

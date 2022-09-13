@@ -10,7 +10,9 @@
 class GLFWwindow;
 
 #ifdef _WIN32
-typedef void * HWND;
+#include "windows.h"
+typedef HWND WindowType;
+typedef HINSTANCE MultiplexType;
 #elif __linux__
 #include "X11/Xlib.h"
 #endif
