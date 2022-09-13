@@ -2,16 +2,13 @@
 // James Sumihiro and Bryan Johnson
 //
 
-#define GLFW_NATIVE_INCLUDE_NONE
-
 #ifdef _WIN32
 #elif __linux__
 #define GLFW_EXPOSE_NATIVE_X11
-
+#include "window_handler.hpp"
+#include "X11/Xlib.h"
 #include "GLFW/glfw3.h"
 #include "GLFW/glfw3native.h"
-#include "window_handler.hpp"
-
 #endif
 
 namespace Forge

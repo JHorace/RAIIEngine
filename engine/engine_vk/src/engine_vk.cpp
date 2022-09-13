@@ -11,7 +11,6 @@
 #include "engine_defaults.hpp"
 #include "engine_vk.hpp"
 
-
 namespace Forge
 {
   //bool IsPhysicalDeviceSuitable(vk::raii::PhysicalDevice const & physDevice)

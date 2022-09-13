@@ -3,5 +3,5 @@
 # engine
 
 add_subdirectory(i_engine)
-add_subdirectory(window_handler)
 add_subdirectory(engine_vk)
+add_subdirectory(window_handler)
