@@ -21,7 +21,7 @@ CPMAddPackage(NAME glfw
         "GLFW_BUILD_TESTS OFF"
         "GLFW_BUILD_EXAMPLES OFF"
         "GLFW_BUILD_DOCS OFF"
-        "GLFW_BUILD_X11 ON"
+        "GLFW_BUILD_WIN32 ON"
         "GLFW_INSTALL OFF")
 
 #CPMAddPackage("gh:KhronosGroup/Vulkan-Hpp@1.3.227")

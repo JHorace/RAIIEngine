@@ -2,6 +2,7 @@
 // James Sumihiro and Bryan Johnson
 //
 
+#include "engine_defaults.hpp"
 #include "engine_vk_factory.hpp"
 #include "engine_vk.hpp"
 

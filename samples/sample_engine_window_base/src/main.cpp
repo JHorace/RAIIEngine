@@ -37,6 +37,8 @@ int main(int argc, char * argv[])
   
   Forge::NativeWindow nWindow = Forge::NativeWindow(window);
   
+  
+  
   engine->AddWindow(nWindow._window, nWindow._multiplex);
   
   glfwMakeContextCurrent(window);

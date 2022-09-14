@@ -19,7 +19,7 @@ namespace Forge
 #ifdef _WIN32
   NativeWindow::NativeWindow(GLFWwindow * window) :
     _window(glfwGetWin32Window(window)),
-    _multiplex(GetModuleHandleA(NULL))
+    _multiplex(GetModuleHandle(NULL))
   {};
 #elif __linux__
   Window GetNativeWindow(GLFWwindow * window)

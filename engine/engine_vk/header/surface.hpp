@@ -11,6 +11,9 @@ namespace Forge
 {
   class Surface
   {
+    // This needs to be first so _vkSurface is visible on member initialization.
+    // TODO: Find a cleaner way to make this work or refactor.
+    vk::raii::SurfaceKHR _vkSurface;
   public:
     // TODO: Pass raw window handle instead of surface.
     Surface(const vk::raii::PhysicalDevice & physicalDevice, vk::raii::SurfaceKHR && surface);
@@ -33,7 +36,6 @@ namespace Forge
     vk::SurfaceFormatKHR GetPreferredImageFormat(const vk::raii::PhysicalDevice & physDevice) const;
     uint32_t GetMinImageCount(const vk::raii::PhysicalDevice & physDevice) const;
   
-    vk::raii::SurfaceKHR _vkSurface;
     vk::Extent2D _extent{};
   };
 }

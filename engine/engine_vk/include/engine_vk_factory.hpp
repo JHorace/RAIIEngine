@@ -8,15 +8,6 @@
 #include <array>
 #include "i_engine_factory.hpp"
 
-inline constexpr std::array INSTANCE_EXTENSIONS
-{
-    "VK_KHR_surface"
-};
-inline constexpr std::array<const char *, 0> INSTANCE_LAYERS
-{
-
-};
-
 namespace Forge
 {
   class EngineVKFactory : public IEngineFactory
