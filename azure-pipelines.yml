@@ -18,8 +18,13 @@ pool:
 
 steps:
 
-- bash: |
-      sudo apt-get install xorg-dev vulkan-sdk libvulkan1 mesa-vulkan-drivers vulkan-utils -y -f
+- bash: 
+      sudo apt-get install xorg-dev libvulkan1 mesa-vulkan-drivers vulkan-utils -y -f |
+      wget -qO - http://packages.lunarg.com/lunarg-signing-key-pub.asc | sudo apt-key add -
+      sudo wget -qO /etc/apt/sources.list.d/lunarg-vulkan-focal.list http://packages.lunarg.com/vulkan/lunarg-vulkan-focal.list
+      sudo apt update
+      sudo apt install vulkan-sdk
+
   condition: eq( variables['Agent.OS'], 'Linux')
   displayName: Download libx on linux
 - task: CMake@1
