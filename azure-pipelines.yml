@@ -19,7 +19,7 @@ pool:
 steps:
 
 - bash: |
-      sudo apt-get install libxrandr-dev
+      sudo apt-get install libx11-dev
   condition: eq( variables['Agent.OS'], 'Linux')
   displayName: Download libx on linux
 - task: CMake@1
