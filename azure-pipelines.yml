@@ -19,7 +19,7 @@ pool:
 steps:
 
 - bash: |
-      sudo apt-get install xorg-dev -y -f
+      sudo apt-get install xorg-dev libvulkan1 mesa-vulkan-drivers vulkan-utils -y -f
   condition: eq( variables['Agent.OS'], 'Linux')
   displayName: Download libx on linux
 - task: CMake@1
