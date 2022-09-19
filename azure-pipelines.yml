@@ -17,6 +17,11 @@ pool:
   vmImage: $(imageName)
 
 steps:
+
+- bash: |
+      apt-get install libxrandr-dev
+  condition: eq( variables['Agent.OS'], 'Linux')
+  displayName: Download libx on linux
 - task: CMake@1
   displayName: 'Cmake ..'
   inputs:
