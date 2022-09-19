@@ -23,8 +23,8 @@ CPMAddPackage(NAME glfw
         "GLFW_BUILD_DOCS OFF"
         "GLFW_INSTALL OFF")
 
-CPMAddPackage("gh:KhronosGroup/Vulkan-Hpp@1.3.227")
-CPMAddPackage("gh:KhronosGroup/Vulkan-Loader@1.3.227")
+#CPMAddPackage("gh:KhronosGroup/Vulkan-Hpp@1.3.227")
+#CPMAddPackage("gh:KhronosGroup/Vulkan-Loader@1.3.227")
 
 
 find_package(Vulkan REQUIRED FATAL_ERROR)
