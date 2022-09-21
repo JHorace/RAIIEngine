@@ -36,6 +36,7 @@ namespace Forge
       std::vector<const char *> & layers);
     
     vk::raii::Device _vkDevice;
+    uint32_t _presentQueueFamilyIndex;
     std::vector<Renderer> _renderers;
   };
 }

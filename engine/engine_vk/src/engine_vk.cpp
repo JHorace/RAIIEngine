@@ -42,6 +42,7 @@ namespace Forge
     for (auto & physicalDevice: physDevices)
       _deviceManagers.emplace_back(DeviceManager(physicalDevice));
     
+    
     const std::vector<const char *> device_extensions{DEFAULT_DEVICE_EXTENSIONS.begin(), DEFAULT_DEVICE_EXTENSIONS.end()};
     _deviceManagers[0].AddLogicalDevice(device_extensions, layers);
   }

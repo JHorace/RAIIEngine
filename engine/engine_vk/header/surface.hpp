@@ -17,8 +17,6 @@ namespace Forge
   public:
     // TODO: Pass raw window handle instead of surface.
     Surface(const vk::raii::PhysicalDevice & physicalDevice, vk::raii::SurfaceKHR && surface);
-    
-    const vk::Extent2D & GetExtent() const;
   
     const vk::raii::SurfaceKHR & operator*() const;
   
@@ -32,11 +30,9 @@ namespace Forge
     const uint32_t _minImageCount;
   private:
     vk::SurfaceCapabilitiesKHR GetSurfaceCapabilities(const vk::raii::PhysicalDevice & physDevice) const;
-    vk::PresentModeKHR GetPreferredPresentMode(const vk::raii::PhysicalDevice & physDevice) const;
+    [[nodiscard]] vk::PresentModeKHR GetPreferredPresentMode(const vk::raii::PhysicalDevice & physDevice) const;
     vk::SurfaceFormatKHR GetPreferredImageFormat(const vk::raii::PhysicalDevice & physDevice) const;
     uint32_t GetMinImageCount(const vk::raii::PhysicalDevice & physDevice) const;
-  
-    vk::Extent2D _extent{};
   };
 }
 

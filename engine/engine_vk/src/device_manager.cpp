@@ -10,7 +10,8 @@ namespace Forge
   DeviceManager::DeviceManager(vk::raii::PhysicalDevice physicalDevice)
     :
     _vkPhysicalDevice{std::move(physicalDevice)},
-    _queueManager{_vkPhysicalDevice}
+    _queueManager{_vkPhysicalDevice},
+    _vkProperties{_vkPhysicalDevice.getProperties()}
   {
   
   }

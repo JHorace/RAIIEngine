@@ -13,7 +13,8 @@ namespace Forge
     std::vector<const char *> extensions,
     std::vector<const char *> layers)
     :
-    _vkDevice{physDevice, CIBuilder(deviceQueueCI, extensions, layers)}
+    _vkDevice{physDevice, CIBuilder(deviceQueueCI, extensions, layers)},
+    _presentQueueFamilyIndex{deviceQueueCI.queueFamilyIndex}
   {
   
   }

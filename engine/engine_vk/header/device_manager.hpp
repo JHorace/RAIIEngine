@@ -27,10 +27,13 @@ namespace Forge
     DeviceManager(DeviceManager && other) noexcept = default;
     DeviceManager(const DeviceManager &) = delete;
     DeviceManager operator=(const DeviceManager &) = delete;
+    
   private:
     vk::raii::PhysicalDevice _vkPhysicalDevice;
     QueueManager _queueManager;
     std::vector<LogicalDevice> logicalDevices;
+  public:
+    const vk::PhysicalDeviceProperties _vkProperties;
   };
 }
 

@@ -35,7 +35,7 @@ int main(int argc, char * argv[])
   
   auto window = glfwCreateWindow(720, 480, "test", nullptr, nullptr);
   
-  Forge::NativeWindow nWindow = Forge::NativeWindow(window);
+  auto nWindow = Forge::NativeWindow(window);
   
   
   

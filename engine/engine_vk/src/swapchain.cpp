@@ -25,11 +25,13 @@ namespace Forge
         .minImageCount = surface._minImageCount,
         .imageFormat = surface._surfaceFormat.format,
         .imageColorSpace = surface._surfaceFormat.colorSpace,
-        .imageExtent = surface.GetExtent(),
+        .imageExtent = surface._surfaceCapabilities.currentExtent,
         .imageArrayLayers = 1,
         .imageUsage = vk::ImageUsageFlagBits::eColorAttachment,
         .imageSharingMode = vk::SharingMode::eExclusive,
-        .presentMode = surface._presentMode
+        .queueFamilyIndexCount = 0,
+        .pQueueFamilyIndices = nullptr,
+        .presentMode = vk::PresentModeKHR::eFifo //surface._presentMode
       };
   }
 }
