@@ -11,8 +11,12 @@ namespace Forge
 {
   inline constexpr std::array INSTANCE_EXTENSIONS
     {
-      "VK_KHR_surface",
-      "VK_KHR_win32_surface"
+      "VK_KHR_surface"
+#ifdef _WIN32
+      ,"VK_KHR_win32_surface"
+#elif __linux__
+    ,"VK_KHR_xlib_surface"
+#endif
     };
   inline constexpr std::array<const char *, 0> INSTANCE_LAYERS
     {

@@ -15,17 +15,19 @@ typedef HWND WindowType;
 typedef HINSTANCE MultiplexType;
 #elif __linux__
 #include "X11/Xlib.h"
+typedef Window WindowType;
+typedef Display* MultiplexType;
 #endif
 
 namespace Forge
 {
-#ifdef _WIN32
-  HWND MakeNativeWindow(GLFWwindow * window);
-#elif __linux__
-  Window GetNativeWindow(GLFWwindow * window);
-  Display* GetNativeDisplay();
-#endif
-
+  struct NativeWindow
+  {
+    NativeWindow(GLFWwindow * window);
+    WindowType _window;
+    MultiplexType _multiplex;
+  };
+  
 }
 
 #endif //RAIIENGINE_WINDOW_HANDLER_HPP

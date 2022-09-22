@@ -23,7 +23,7 @@ namespace Forge
     {
     };
     virtual void Render() = 0;
-    virtual void AddWindow(void * window) = 0;
+    virtual void AddWindow(Forge::NativeWindow window) = 0;
   private:
   };
 }

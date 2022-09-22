@@ -25,6 +25,7 @@ namespace Forge
   {
     auto logger = static_cast<Logger *>(pUserData);
     logger->_info->info("Test message");
+    logger->_info->flush();
     return 0;
   }
 

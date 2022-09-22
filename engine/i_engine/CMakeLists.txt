@@ -8,4 +8,7 @@ target_compile_features(i_engine INTERFACE
         cxx_std_20
 )
 
+target_link_libraries(i_engine INTERFACE
+        window_handler)
+
 target_include_directories(i_engine INTERFACE include/)

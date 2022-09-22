@@ -2,12 +2,7 @@
 // James Sumihiro and Bryan Johnson
 //
 
-#define VULKAN_HPP_TYPESAFE_CONVERSION 1
-
 #include <iostream>
-#include "SDL2/SDL.h"
-#include "SDL2/SDL_vulkan.h"
-
 #include "engine_defaults.hpp"
 #include "engine_vk.hpp"
 
@@ -94,13 +89,23 @@ namespace Forge
     return true;
   }
   
-  void EngineVK::AddWindow(WindowType window, MultiplexType instance)
+  void EngineVK::AddWindow(Forge::NativeWindow window)
   {
+
+#ifdef _WIN32
     vk::Win32SurfaceCreateInfoKHR surfaceCI{
       .hinstance = instance,
       .hwnd = window
     };
     
    _deviceManagers[0].AddSurface(_vkInstance.createWin32SurfaceKHR(surfaceCI));
+#elif __linux__
+  vk::XlibSurfaceCreateInfoKHR surfaceCI{
+    .dpy = window._multiplex,
+    .window = window._window
+  };
+#endif
+    _deviceManagers[0].AddSurface(_vkInstance.createXlibSurfaceKHR(surfaceCI));
+
   }
 }

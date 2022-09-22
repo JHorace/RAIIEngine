@@ -33,13 +33,14 @@ int main(int argc, char * argv[])
   
   Forge::IEngine * engine = factory.CreateEngine();
   
+  glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
   auto window = glfwCreateWindow(720, 480, "test", nullptr, nullptr);
   
   auto nWindow = Forge::NativeWindow(window);
   
   
   
-  engine->AddWindow(nWindow._window, nWindow._multiplex);
+  engine->AddWindow(Forge::NativeWindow(window));
   
   glfwMakeContextCurrent(window);
   glfwSetKeyCallback(window, key_callback);
@@ -47,8 +48,7 @@ int main(int argc, char * argv[])
   
   while (!glfwWindowShouldClose(window))
   {
-    glfwSwapBuffers(window);
-    glfwPollEvents();
+
   }
   
   glfwTerminate();

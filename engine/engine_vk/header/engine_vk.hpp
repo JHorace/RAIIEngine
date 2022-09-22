@@ -10,6 +10,8 @@
 #include "renderer.hpp"
 #include "device_manager.hpp"
 
+#include "debug.hpp"
+
 namespace Forge
 {
   
@@ -28,7 +30,7 @@ namespace Forge
     EngineVK(std::vector<const char *> extensions, std::vector<const char *> layers);
 
     void Render() override;
-    virtual void AddWindow(WindowType window, MultiplexType instance) final;
+    virtual void AddWindow(Forge::NativeWindow window) final;
   private:
     vk::InstanceCreateInfo CIBuilder(const vk::ApplicationInfo * appInfo,
                                      std::vector<const char *>& extensions,
@@ -37,6 +39,7 @@ namespace Forge
 
     vk::raii::Context _vkContext;
     vk::raii::Instance _vkInstance;
+    Logger _logger;
     std::vector<DeviceManager> _deviceManagers;
   };
 }
