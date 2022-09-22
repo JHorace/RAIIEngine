@@ -31,6 +31,7 @@ namespace Forge
   private:
     vk::raii::PhysicalDevice _vkPhysicalDevice;
     QueueManager _queueManager;
+    std::vector<Surface> _surfaces;
     std::vector<LogicalDevice> logicalDevices;
   public:
     const vk::PhysicalDeviceProperties _vkProperties;

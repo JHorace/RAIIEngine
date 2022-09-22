@@ -11,18 +11,24 @@
 
 // TODO: Move all this to an i_application / application_GLFW (replacing/superceding window_handler)
 
-static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
+static void key_callback(GLFWwindow * window,
+                         int key,
+                         int scancode,
+                         int action,
+                         int mods)
 {
   if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
     glfwSetWindowShouldClose(window, GLFW_TRUE);
 }
 
-void error_callback(int error, const char* description)
+void error_callback(int error,
+                    const char * description)
 {
   fprintf(stderr, "Error: %s\n", description);
 }
 
-int main(int argc, char * argv[])
+int main(int argc,
+         char * argv[])
 {
   if (!glfwInit())
   {
@@ -39,7 +45,6 @@ int main(int argc, char * argv[])
   auto nWindow = Forge::NativeWindow(window);
   
   
-  
   engine->AddWindow(Forge::NativeWindow(window));
   
   glfwMakeContextCurrent(window);
@@ -48,7 +53,7 @@ int main(int argc, char * argv[])
   
   while (!glfwWindowShouldClose(window))
   {
-
+    glfwPollEvents();
   }
   
   glfwTerminate();

@@ -14,7 +14,8 @@ namespace Forge
     std::vector<const char *> layers)
     :
     _vkDevice{physDevice, CIBuilder(deviceQueueCI, extensions, layers)},
-    _presentQueueFamilyIndex{deviceQueueCI.queueFamilyIndex}
+    _presentQueueFamilyIndex{deviceQueueCI.queueFamilyIndex},
+    _commandDispatch{_vkDevice, 3, deviceQueueCI.queueFamilyIndex}
   {
   
   }
@@ -37,9 +38,9 @@ namespace Forge
     return deviceCI;
   }
   
-  void LogicalDevice::CreateRendererFromSurface(const Surface & surface)
+  void LogicalDevice::CreateSwapchainFromSurface(const Surface & surface)
   {
-    _renderers.emplace_back(Renderer(_vkDevice, surface));
+    _swapchains.emplace_back(Swapchain{_vkDevice, surface});
   }
 }
 

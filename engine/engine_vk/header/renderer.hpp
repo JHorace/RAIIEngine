@@ -6,17 +6,22 @@
 #define RAIIENGINE_RENDERER_HPP
 
 #include "p_includes.hpp"
-#include "swapchain.hpp"
+#include "logical_device.hpp"
 
 namespace Forge
 {
   class Renderer
   {
   public:
-    Renderer(const vk::raii::Device & device,
-             const Surface & surface);
+    Renderer();
+    
+    void Draw(LogicalDevice & device);
   private:
-    Swapchain _swapchain;
+    uint32_t imageCount;
+    vk::RenderingInfo _renderingInfo;
+    vk::RenderingAttachmentInfo _colorAttachInfo;
+    vk::RenderingAttachmentInfo _depthAttachInfo;
+    vk::RenderingAttachmentInfo _stencilAttachInfo;
   };
 }
 

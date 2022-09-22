@@ -38,7 +38,8 @@ namespace Forge
       _deviceManagers.emplace_back(DeviceManager(physicalDevice));
     
     
-    const std::vector<const char *> device_extensions{DEFAULT_DEVICE_EXTENSIONS.begin(), DEFAULT_DEVICE_EXTENSIONS.end()};
+    const std::vector<const char *> device_extensions{DEFAULT_DEVICE_EXTENSIONS.begin(),
+                                                      DEFAULT_DEVICE_EXTENSIONS.end()};
     _deviceManagers[0].AddLogicalDevice(device_extensions, layers);
   }
   
@@ -94,18 +95,18 @@ namespace Forge
 
 #ifdef _WIN32
     vk::Win32SurfaceCreateInfoKHR surfaceCI{
-      .hinstance = instance,
-      .hwnd = window
+      .hinstance = window._multiplex,
+      .hwnd = window._window
     };
     
-   _deviceManagers[0].AddSurface(_vkInstance.createWin32SurfaceKHR(surfaceCI));
+    _deviceManagers[0].AddSurface(_vkInstance.createWin32SurfaceKHR(surfaceCI));
 #elif __linux__
-  vk::XlibSurfaceCreateInfoKHR surfaceCI{
-    .dpy = window._multiplex,
-    .window = window._window
-  };
-#endif
+    vk::XlibSurfaceCreateInfoKHR surfaceCI{
+      .dpy = window._multiplex,
+      .window = window._window
+    };
     _deviceManagers[0].AddSurface(_vkInstance.createXlibSurfaceKHR(surfaceCI));
-
+#endif
+    
   }
 }

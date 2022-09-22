@@ -24,7 +24,7 @@ namespace Forge
     void * pUserData)
   {
     auto logger = static_cast<Logger *>(pUserData);
-    logger->_info->info("Test message");
+    logger->_info->info(pCallbackData->pMessage);
     logger->_info->flush();
     return 0;
   }

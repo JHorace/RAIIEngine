@@ -14,7 +14,8 @@ add_library(engine_vk STATIC
   src/swapchain.cpp header/swapchain.hpp
   src/surface.cpp header/surface.hpp
   src/device_manager.cpp header/device_manager.hpp
-  header/device_manager.hpp header/engine_defaults.hpp)
+  header/device_manager.hpp header/engine_defaults.hpp
+  src/command_dispatch.cpp header/command_dispatch.hpp)
 
 target_compile_features(engine_vk PRIVATE
   cxx_std_20

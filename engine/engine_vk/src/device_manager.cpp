@@ -40,7 +40,7 @@ namespace Forge
   
   void DeviceManager::AddSurface(vk::raii::SurfaceKHR && surfaceHandle)
   {
-    Surface surface(_vkPhysicalDevice, std::move(surfaceHandle));
-    logicalDevices[0].CreateRendererFromSurface(surface);
+    _surfaces.emplace_back(_vkPhysicalDevice, std::move(surfaceHandle));
+    logicalDevices.back().CreateSwapchainFromSurface(_surfaces.back());
   }
 }

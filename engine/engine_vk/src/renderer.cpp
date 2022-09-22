@@ -6,11 +6,35 @@
 
 namespace Forge
 {
-  Renderer::Renderer(const vk::raii::Device & device,
-                     const Surface & surface)
-    :
-    _swapchain(device, surface)
-  {
   
+  Renderer::Renderer()
+  {
+    _renderingInfo = vk::RenderingInfo{
+      .renderArea = vk::Rect2D(),
+      .layerCount = 1,
+      .colorAttachmentCount = 1,
+      .pColorAttachments = &_colorAttachInfo,
+      .pDepthAttachment = nullptr,
+      .pStencilAttachment = nullptr
+    };
+    _colorAttachInfo = vk::RenderingAttachmentInfo{
+      .imageLayout = vk::ImageLayout::eAttachmentOptimal,
+      .loadOp = vk::AttachmentLoadOp::eClear,
+      .storeOp = vk::AttachmentStoreOp::eStore
+    };
+  }
+  
+  void Renderer::Draw(LogicalDevice & device)
+  {
+    auto commandBuffer = device.GetCommandBuffer();
+    
+    commandBuffer.beginRendering(_renderingInfo);
+    
+    vk::PipelineRenderingCreateInfo{
+      .colorAttachmentCount = 1,
+      .pColorAttachmentFormats =
+    };
+    
+    commandBuffer.endRendering();
   }
 }

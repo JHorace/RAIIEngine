@@ -9,8 +9,41 @@ namespace Forge
   Swapchain::Swapchain(const vk::raii::Device & device,
                        const Surface & surface)
     :
-    _vkSwapchain{device, CIBuilder(surface)}
-  {}
+    _vkSwapchain{device, CIBuilder(surface)},
+    _imageAcquiredSemaphore{device, {}},
+    _drawReadyFence{device, {}}
+  {
+    auto images = _vkSwapchain.getImages();
+    
+    vk::ImageViewCreateInfo imageViewCreateInfo
+      {
+        .viewType = vk::ImageViewType::e2D,
+        .format = surface._surfaceFormat.format,
+        .components =
+          {
+            .r = vk::ComponentSwizzle::eR,
+            .g = vk::ComponentSwizzle::eG,
+            .b = vk::ComponentSwizzle::eB,
+            .a = vk::ComponentSwizzle::eA
+          },
+        .subresourceRange =
+          {
+            .aspectMask = vk::ImageAspectFlagBits::eColor,
+            .baseMipLevel = 0,
+            .levelCount = 1,
+            .baseArrayLayer = 0,
+            .layerCount = 1
+          }
+      };
+    
+    for (auto & image: images)
+    {
+      imageViewCreateInfo.image = image;
+      _images.emplace_back(Image{image, vk::raii::ImageView(device, imageViewCreateInfo), surface._surfaceFormat.format});
+    }
+    
+    
+  }
   
   const vk::raii::SwapchainKHR & Swapchain::operator*() const
   {
@@ -31,7 +64,23 @@ namespace Forge
         .imageSharingMode = vk::SharingMode::eExclusive,
         .queueFamilyIndexCount = 0,
         .pQueueFamilyIndices = nullptr,
-        .presentMode = vk::PresentModeKHR::eFifo //surface._presentMode
+        .presentMode = surface._presentMode
       };
+  }
+  
+  void Swapchain::Update()
+  {
+    // TODO change timeout to be non-zero?
+    auto [result, image] = _vkSwapchain.acquireNextImage(0, *_imageAcquiredSemaphore);
+    
+    if (result == vk::Result::eSuccess)
+    {
+      currentImageIndex = image;
+    }
+  }
+  
+  const Image & Swapchain::GetCurrentImage() const
+  {
+    return _images[currentImageIndex];
   }
 }

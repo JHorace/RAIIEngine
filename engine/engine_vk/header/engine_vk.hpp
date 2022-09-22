@@ -41,6 +41,7 @@ namespace Forge
     vk::raii::Instance _vkInstance;
     Logger _logger;
     std::vector<DeviceManager> _deviceManagers;
+    Renderer _renderer;
   };
 }
 

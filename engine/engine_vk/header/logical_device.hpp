@@ -9,6 +9,7 @@
 #include "queue_manager.hpp"
 #include "surface.hpp"
 #include "renderer.hpp"
+#include "command_dispatch.hpp"
 
 namespace Forge
 {
@@ -22,7 +23,7 @@ namespace Forge
       std::vector<const char *> extensions,
       std::vector<const char *> layers);
     
-    void CreateRendererFromSurface(const Surface & surface);
+    void CreateSwapchainFromSurface(const Surface & surface);
     
     const vk::raii::Device & operator*() const;
   
@@ -36,8 +37,9 @@ namespace Forge
       std::vector<const char *> & layers);
     
     vk::raii::Device _vkDevice;
+    std::vector<Swapchain> _swapchains;
     uint32_t _presentQueueFamilyIndex;
-    std::vector<Renderer> _renderers;
+    CommandDispatch _commandDispatch;
   };
 }
 

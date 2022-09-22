@@ -9,6 +9,7 @@
 
 namespace Forge
 {
+  typedef uint32_t SurfaceID;
   class Surface
   {
     // This needs to be first so _vkSurface is visible on member initialization.

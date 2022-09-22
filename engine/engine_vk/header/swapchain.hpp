@@ -10,19 +10,33 @@
 
 namespace Forge
 {
+  struct Image
+  {
+    vk::Image image;
+    vk::raii::ImageView view;
+    vk::Format format;
+  };
+  
   class Swapchain
   {
   public:
     Swapchain(const vk::raii::Device & device,
               const Surface & surface);
     
+    void Update();
     
     const vk::raii::SwapchainKHR & operator*() const;
+    const Image & GetCurrentImage() const;
   private:
     
     vk::SwapchainCreateInfoKHR CIBuilder(const Surface & surface);
     
     vk::raii::SwapchainKHR _vkSwapchain;
+    std::vector<Image> _images;
+    vk::raii::Semaphore _imageAcquiredSemaphore;
+    vk::raii::Fence _drawReadyFence;
+    
+    uint32_t currentImageIndex;
   };
 }
 
