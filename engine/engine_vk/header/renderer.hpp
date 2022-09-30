@@ -7,6 +7,7 @@
 
 #include "p_includes.hpp"
 #include "logical_device.hpp"
+#include "pipeline.hpp"
 
 namespace Forge
 {
@@ -15,13 +16,9 @@ namespace Forge
   public:
     Renderer();
     
-    void Draw(LogicalDevice & device);
+    void Draw(LogicalDevice & device, Pipeline & pipeline, WindowID windowID);
   private:
-    uint32_t imageCount;
-    vk::RenderingInfo _renderingInfo;
-    vk::RenderingAttachmentInfo _colorAttachInfo;
-    vk::RenderingAttachmentInfo _depthAttachInfo;
-    vk::RenderingAttachmentInfo _stencilAttachInfo;
+  
   };
 }
 

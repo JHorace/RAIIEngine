@@ -9,30 +9,20 @@ namespace Forge
   
   Renderer::Renderer()
   {
-    _renderingInfo = vk::RenderingInfo{
-      .renderArea = vk::Rect2D(),
-      .layerCount = 1,
-      .colorAttachmentCount = 1,
-      .pColorAttachments = &_colorAttachInfo,
-      .pDepthAttachment = nullptr,
-      .pStencilAttachment = nullptr
-    };
-    _colorAttachInfo = vk::RenderingAttachmentInfo{
-      .imageLayout = vk::ImageLayout::eAttachmentOptimal,
-      .loadOp = vk::AttachmentLoadOp::eClear,
-      .storeOp = vk::AttachmentStoreOp::eStore
-    };
   }
   
-  void Renderer::Draw(LogicalDevice & device)
+  
+  
+  void Renderer::Draw(LogicalDevice & device, Pipeline & pipeline, WindowID windowID)
   {
-    auto commandBuffer = device.GetCommandBuffer();
+    auto & commandBuffer = device.GetDispatch().GetCommandBuffer();
+    auto & currentImage = device.GetSwapchain(windowID).GetCurrentImage();
     
-    commandBuffer.beginRendering(_renderingInfo);
+    commandBuffer.beginRendering(pipeline._renderingInfo);
     
     vk::PipelineRenderingCreateInfo{
       .colorAttachmentCount = 1,
-      .pColorAttachmentFormats =
+      .pColorAttachmentFormats = &currentImage.format
     };
     
     commandBuffer.endRendering();

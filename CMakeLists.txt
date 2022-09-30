@@ -23,17 +23,12 @@ CPMAddPackage(NAME glfw
         "GLFW_BUILD_DOCS OFF"
         "GLFW_INSTALL OFF")
 
-#CPMAddPackage("gh:KhronosGroup/Vulkan-Hpp@1.3.227")
-#CPMAddPackage("gh:KhronosGroup/Vulkan-Loader@1.3.227")
-
-
 find_package(Vulkan REQUIRED FATAL_ERROR)
 find_package(glfw REQUIRED FATAL_ERROR)
 
 if(!${glfw_FOUND})
     message("GLFW not found")
 endif()
-
 
 add_subdirectory(engine)
 add_subdirectory(samples)

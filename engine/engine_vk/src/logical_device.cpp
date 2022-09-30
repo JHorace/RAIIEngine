@@ -41,6 +41,23 @@ namespace Forge
   void LogicalDevice::CreateSwapchainFromSurface(const Surface & surface)
   {
     _swapchains.emplace_back(Swapchain{_vkDevice, surface});
+    
+    CreateDefaultPipeline(); // TODO: Move this somewhere else.
+  }
+  
+  CommandDispatch & LogicalDevice::GetDispatch()
+  {
+    return _commandDispatch;
+  }
+  
+  const Swapchain & LogicalDevice::GetSwapchain(WindowID windowID) const
+  {
+    return _swapchains[windowID];
+  }
+  
+  void LogicalDevice::CreateDefaultPipeline()
+  {
+    _pipelines.emplace_back(Pipeline(_vkDevice));
   }
 }
 

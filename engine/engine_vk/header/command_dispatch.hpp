@@ -16,6 +16,7 @@ namespace Forge
                     uint32_t commandBufferCount,
                     uint32_t queueFamilyIndex);
   
+    vk::raii::CommandBuffer & GetCommandBuffer();
   private:
     vk::CommandPoolCreateInfo CIBuilder(uint32_t queueFamilyIndex);
     vk::CommandBufferAllocateInfo AIBuilder(uint32_t commandBufferCount);

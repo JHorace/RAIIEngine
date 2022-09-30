@@ -32,4 +32,10 @@ namespace Forge
       .commandBufferCount = commandBufferCount
     };
   }
+  
+  vk::raii::CommandBuffer & CommandDispatch::GetCommandBuffer()
+  {
+    // TODO: manage command buffers somehow.
+    return _vkCommandBuffers[0];
+  }
 }

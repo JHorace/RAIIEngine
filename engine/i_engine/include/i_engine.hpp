@@ -15,6 +15,7 @@ inline constexpr bool DEBUG_LOGGING = true;
 
 namespace Forge
 {
+  typedef unsigned int WindowID;
   
   class IEngine
   {

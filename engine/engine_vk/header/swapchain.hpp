@@ -10,6 +10,7 @@
 
 namespace Forge
 {
+  
   struct Image
   {
     vk::Image image;

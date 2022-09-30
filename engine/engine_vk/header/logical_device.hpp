@@ -8,11 +8,13 @@
 #include "p_includes.hpp"
 #include "queue_manager.hpp"
 #include "surface.hpp"
-#include "renderer.hpp"
+#include "swapchain.hpp"
 #include "command_dispatch.hpp"
+#include "pipeline.hpp"
 
 namespace Forge
 {
+  typedef unsigned int WindowID;
   
   class LogicalDevice
   {
@@ -25,6 +27,11 @@ namespace Forge
     
     void CreateSwapchainFromSurface(const Surface & surface);
     
+    void CreateDefaultPipeline();
+  
+    CommandDispatch & GetDispatch();
+    const Swapchain & GetSwapchain(WindowID windowID) const;
+    
     const vk::raii::Device & operator*() const;
   
     LogicalDevice(LogicalDevice && other) noexcept = default;
@@ -35,7 +42,8 @@ namespace Forge
       vk::DeviceQueueCreateInfo & deviceQueueCI,
       std::vector<const char *> & extensions,
       std::vector<const char *> & layers);
-    
+  public:
+    std::vector<Pipeline> _pipelines;
     vk::raii::Device _vkDevice;
     std::vector<Swapchain> _swapchains;
     uint32_t _presentQueueFamilyIndex;
