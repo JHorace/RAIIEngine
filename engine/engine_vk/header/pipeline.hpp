@@ -7,6 +7,8 @@
 
 #include <array>
 #include "p_includes.hpp"
+#include "shader.hpp"
+#include <unordered_map>
 
 namespace Forge
 {
@@ -26,6 +28,7 @@ namespace Forge
     vk::raii::Pipeline _pipeline;
   };
   
+  // TODO: Move this to another file and/or refactor.
   namespace DefaultPipeline
   {
     inline constexpr std::array vertexAttributes{

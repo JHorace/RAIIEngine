@@ -26,12 +26,14 @@ target_compile_features(engine_vk PRIVATE
   cxx_aggregate_default_initializers)
 
 target_link_libraries(engine_vk PUBLIC
-    i_engine
-        glfw)
+  i_engine
+  glfw
+  )
 
 target_link_libraries(engine_vk PRIVATE
   Vulkan::Vulkan
-  spdlog::spdlog)
+  spdlog::spdlog
+  shaderc)
 
 target_include_directories(engine_vk PUBLIC include/)
 target_include_directories(engine_vk PRIVATE header/)

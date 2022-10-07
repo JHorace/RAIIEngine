@@ -11,6 +11,7 @@
 #include "swapchain.hpp"
 #include "command_dispatch.hpp"
 #include "pipeline.hpp"
+#include "shader.hpp"
 
 namespace Forge
 {
@@ -28,6 +29,8 @@ namespace Forge
     void CreateSwapchainFromSurface(const Surface & surface);
     
     void CreateDefaultPipeline();
+    
+    void CreateDefaultShaders();
   
     CommandDispatch & GetDispatch();
     const Swapchain & GetSwapchain(WindowID windowID) const;
@@ -43,6 +46,7 @@ namespace Forge
       std::vector<const char *> & extensions,
       std::vector<const char *> & layers);
   public:
+    std::vector<Shader> _shaders;
     std::vector<Pipeline> _pipelines;
     vk::raii::Device _vkDevice;
     std::vector<Swapchain> _swapchains;

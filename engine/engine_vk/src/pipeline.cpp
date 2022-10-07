@@ -36,7 +36,6 @@ namespace Forge
       .pDepthAttachment = nullptr,
       .pStencilAttachment = nullptr
     };
-  
     
     vk::GraphicsPipelineCreateInfo graphicsPipelineCI{
       .pNext = nullptr,

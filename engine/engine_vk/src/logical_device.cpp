@@ -43,6 +43,7 @@ namespace Forge
     _swapchains.emplace_back(Swapchain{_vkDevice, surface});
     
     CreateDefaultPipeline(); // TODO: Move this somewhere else.
+    CreateDefaultShaders(); // TODO: Move this somewhere else.
   }
   
   CommandDispatch & LogicalDevice::GetDispatch()
@@ -58,6 +59,14 @@ namespace Forge
   void LogicalDevice::CreateDefaultPipeline()
   {
     _pipelines.emplace_back(Pipeline(_vkDevice));
+  }
+  
+  void LogicalDevice::CreateDefaultShaders()
+  {
+    auto vertBytes = Shader::CompileSPV("assets/shaders/simple.vert", Shader::Stage::vertex);
+    _shaders.emplace_back(Shader(_vkDevice, vertBytes, Shader::Stage::vertex));
+    auto fragBytes = Shader::CompileSPV("assets/shaders/simple.frag", Shader::Stage::fragment);
+    _shaders.emplace_back(Shader(_vkDevice, fragBytes, Shader::Stage::fragment));
   }
 }
 
