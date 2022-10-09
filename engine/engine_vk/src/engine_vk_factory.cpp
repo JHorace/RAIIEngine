@@ -12,7 +12,15 @@ namespace Forge
   {
     std::vector<const char *> extensions(INSTANCE_EXTENSIONS.begin(), INSTANCE_EXTENSIONS.end());
     std::vector<const char *> layers(INSTANCE_LAYERS.begin(), INSTANCE_LAYERS.end());
-
-    return new Forge::EngineVK(extensions, layers);
+    
+    return new Forge::EngineVK(EngineConfigInfo{}, extensions, layers);
+  }
+  
+  IEngine * EngineVKFactory::CreateEngine(const EngineConfigInfo & configInfo)
+  {
+    std::vector<const char *> extensions(INSTANCE_EXTENSIONS.begin(), INSTANCE_EXTENSIONS.end());
+    std::vector<const char *> layers(INSTANCE_LAYERS.begin(), INSTANCE_LAYERS.end());
+    
+    return new Forge::EngineVK(configInfo, extensions, layers);
   }
 }

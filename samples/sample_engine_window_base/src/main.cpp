@@ -8,8 +8,19 @@
 #include "window_handler.hpp"
 #include "GLFW/glfw3.h"
 #include "cstdio"
+#include "app_config.hpp"
 
 // TODO: Move all this to an i_application / application_GLFW (replacing/superceding window_handler)
+
+Forge::EngineConfigInfo EngineConfigBuilder()
+{
+  return Forge::EngineConfigInfo{
+    ._appName = APP_NAME,
+    ._appVersionMajor = APP_VERSION_MAJOR,
+    ._appVersionMinor = APP_VERSION_MINOR,
+  };
+  
+}
 
 static void key_callback(GLFWwindow * window,
                          int key,
@@ -35,15 +46,16 @@ int main(int argc,
     return 1;
   }
   
-  Forge::EngineVKFactory factory;
   
-  Forge::IEngine * engine = factory.CreateEngine();
+  Forge::EngineVKFactory factory;
+
+  
+  Forge::IEngine * engine = factory.CreateEngine(EngineConfigBuilder());
   
   glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
   auto window = glfwCreateWindow(720, 480, "test", nullptr, nullptr);
   
   auto nWindow = Forge::NativeWindow(window);
-  
   
   engine->AddWindow(Forge::NativeWindow(window));
   

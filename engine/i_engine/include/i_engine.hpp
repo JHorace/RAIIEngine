@@ -17,6 +17,16 @@ namespace Forge
 {
   typedef unsigned int WindowID;
   
+  struct EngineConfigInfo
+  {
+    const char* _appName{"Default App"};
+    const char* _engineName{"Default Engine"};
+    unsigned _engineVersionMajor{1};
+    unsigned _engineVersionMinor{0};
+    unsigned _appVersionMajor{1};
+    unsigned _appVersionMinor{0};
+  };
+  
   class IEngine
   {
   public:

@@ -5,9 +5,10 @@
 #ifndef RAIIENGINE_I_ENGINE_FACTORY_HPP
 #define RAIIENGINE_I_ENGINE_FACTORY_HPP
 
+#include "i_engine.hpp"
+
 namespace Forge
 {
-  class IEngine;
 
   class IEngineFactory
   {
@@ -16,6 +17,7 @@ namespace Forge
     {
     };
     virtual IEngine * CreateEngine() = 0;
+    virtual IEngine * CreateEngine(const EngineConfigInfo& configInfo) = 0;
   };
 }
 

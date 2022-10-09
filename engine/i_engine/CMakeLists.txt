@@ -9,6 +9,7 @@ target_compile_features(i_engine INTERFACE
 )
 
 target_link_libraries(i_engine INTERFACE
-        window_handler)
+        window_handler
+        render_descriptions)
 
 target_include_directories(i_engine INTERFACE include/)

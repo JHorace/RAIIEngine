@@ -2,8 +2,8 @@
 // James Sumihiro and Bryan Johnson
 //
 #include "shader.hpp"
-#include "glslang/SPIRV/GlslangToSpv.h"
-#include "shaderc/shaderc.hpp"
+//#include "glslang/SPIRV/GlslangToSpv.h"
+//#include "shaderc/shaderc.hpp"
 #include <iostream>
 #include <fstream>
 #include <unordered_map>
@@ -41,6 +41,7 @@ namespace Forge
     return (std::stringstream() << file_stream.rdbuf()).str();
   }
   
+  /*
   std::vector<uint32_t> Shader::CompileSPV(const std::filesystem::path & filePath,
                                            Shader::Stage stage)
   {
@@ -57,4 +58,5 @@ namespace Forge
     
     return std::vector<uint32_t>{vertResult.begin(), vertResult.end()};
   }
+   */
 }

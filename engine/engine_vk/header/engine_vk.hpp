@@ -27,21 +27,19 @@ namespace Forge
   class EngineVK : public IEngine
   {
   public:
-    EngineVK(std::vector<const char *> extensions, std::vector<const char *> layers);
-
+    EngineVK(const EngineConfigInfo& configInfo, std::vector<const char *> extensions, std::vector<const char *> layers);
     void Render() override;
     virtual void AddWindow(Forge::NativeWindow window) final;
   private:
-    vk::InstanceCreateInfo CIBuilder(const vk::ApplicationInfo * appInfo,
-                                     std::vector<const char *>& extensions,
-                                     std::vector<const char *>& layers);
-    bool CheckValidationLayerSupport(std::vector<const char *> const & validationLayers);
-
+    static bool CheckValidationLayerSupport(const vk::raii::Context & context, std::vector<const char *> const & validationLayers);
+    static vk::raii::Instance CreateInstance(const vk::raii::Context & context, const EngineConfigInfo& configInfo, std::vector<const char *> extensions, std::vector<const char *> layers);
+    static vk::ApplicationInfo AppInfoBuilder(const EngineConfigInfo& configInfo);
     vk::raii::Context _vkContext;
     vk::raii::Instance _vkInstance;
     Logger _logger;
     std::vector<DeviceManager> _deviceManagers;
     Renderer _renderer;
+
   };
 }
 

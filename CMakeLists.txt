@@ -4,19 +4,21 @@
 
 cmake_minimum_required(VERSION 3.24)
 
-set(SHADERC_SKIP_TESTS ON)
-
-set(CMAKE_VERBOSE_MAKEFILE ON)
-
+###CPM functions
 include("cmake/CPM.cmake")
+
+set(CMAKE_UTILS_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake-utils")
+
+###cmake utility functions
+include(${CMAKE_CURRENT_SOURCE_DIR}/cmake-utils/utils.cmake)
+
 
 project("RAIIEngine" LANGUAGES CXX)
 
+set(SHARED_ASSETS_PATH ${CMAKE_CURRENT_SOURCE_DIR}/assets)
+
+
 find_package(Vulkan REQUIRED)
-
-#execute_process("")
-
-#option(CPM_USE_LOCAL_PACKAGES "Attempt to use local packages first" ON)
 
 CPMAddPackage("gh:gabime/spdlog@1.10.0")
 
@@ -29,35 +31,14 @@ CPMAddPackage(NAME glfw
         "GLFW_BUILD_DOCS OFF"
         "GLFW_INSTALL OFF")
 
-#CPMAddPackage(
-#  NAME spirvheaders
-#  GITHUB_REPOSITORY KhronosGroup/SPIRV-Headers
-#  GIT_TAG 1.5.3.reservations1
-#)
-
-#CPMAddPackage(
-#  NAME spirvtools
-#  GITHUB_REPOSITORY KhronosGroup/SPIRV-Tools
-#  GIT_TAG v2022.2
-#)
-
-#CPMAddPackage(NAME glslang
-#  GITHUB_REPOSITORY KhronosGroup/glslang
-#  GIT_TAG 11.11.0
-#  )
-
-CPMAddPackage(NAME shaderc
-  GITHUB_REPOSITORY google/shaderc
-  GIT_TAG v2022.2
-  DOWNLOAD_ONLY YES
-  )
 
 find_package(glfw REQUIRED)
-find_package(shaderc REQUIRED)
 
 if(!${glfw_FOUND})
     message("GLFW not found")
 endif()
 
 add_subdirectory(engine)
+add_subdirectory(assets)
 add_subdirectory(samples)
+

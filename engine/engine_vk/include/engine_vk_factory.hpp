@@ -14,6 +14,7 @@ namespace Forge
   {
   public:
     IEngine * CreateEngine() override;
+    IEngine * CreateEngine(const EngineConfigInfo& configInfo) override;
     ~EngineVKFactory() override = default;
   };
 }

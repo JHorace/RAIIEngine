@@ -1,0 +1,8 @@
+//
+// Created by jsumihiro on 10/8/22.
+//
+
+#ifndef RAIIENGINE_CONVERSIONS_HPP
+#define RAIIENGINE_CONVERSIONS_HPP
+
+#endif //RAIIENGINE_CONVERSIONS_HPP
