@@ -31,6 +31,21 @@ CPMAddPackage(NAME glfw
         "GLFW_BUILD_DOCS OFF"
         "GLFW_INSTALL OFF")
 
+### SPIRV-Cross and build options
+
+set(SPIRV_CROSS_CLI OFF)
+set(SPIRV_CROSS_ENABLE_TESTS OFF)
+set(SPIRV_CROSS_ENABLE_GLSL ON)
+set(SPIRV_CROSS_ENABLE_HLSL OFF)
+set(SPIRV_CROSS_ENABLE_MSL OFF)
+set(SPIRV_CROSS_ENABLE_CPP ON)
+set(SPIRV_CROSS_ENABLE_C_API OFF)
+set(SPIRV_CROSS_ENABLE_UTIL OFF)
+set(SPIRV_CROSS_ENABLE_REFLECT ON)
+
+CPMAddPackage(NAME SPIRV-Cross
+        GITHUB_REPOSITORY KhronosGroup/SPIRV-Cross
+        GIT_TAG sdk-1.3.224.1)
 
 find_package(glfw REQUIRED)
 
@@ -38,7 +53,13 @@ if(!${glfw_FOUND})
     message("GLFW not found")
 endif()
 
+#add_subdirectory(${SPIRV-Cross_SOURCE_DIR})
+add_subdirectory(utils)
+add_subdirectory(render_descriptor)
+add_subdirectory(reflection)
 add_subdirectory(engine)
 add_subdirectory(assets)
 add_subdirectory(samples)
+add_subdirectory(tests)
+
 

@@ -33,7 +33,7 @@ target_link_libraries(engine_vk PUBLIC
 target_link_libraries(engine_vk PRIVATE
   Vulkan::Vulkan
   spdlog::spdlog
-        glslang
+  render_descriptor
         )
 
 target_include_directories(engine_vk PUBLIC include/)

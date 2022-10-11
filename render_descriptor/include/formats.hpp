@@ -5,9 +5,12 @@
 #ifndef RAIIENGINE_FORMATS_HPP
 #define RAIIENGINE_FORMATS_HPP
 
-enum class Format{
-  Undefined,
-  R32G32B32Sfloat,
-};
+namespace Forge
+{
+  enum class Format{
+    Undefined,
+    R32G32B32Sfloat,
+  };
+}
 
 #endif //RAIIENGINE_FORMATS_HPP

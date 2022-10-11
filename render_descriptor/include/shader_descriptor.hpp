@@ -15,30 +15,30 @@ enum class ShaderStage
     Fragment
 };
 
-struct VertexAttributeDescription
+struct VertexAttributeDescriptor
 {
     unsigned _location;
     unsigned _binding;
-    Format _format;
+    Forge::Format _format;
     unsigned _offset;
 };
 
-struct VertexInputDescription
+struct VertexInputDescriptor
 {
   unsigned _binding;
   unsigned _stride;
 };
 
-struct VertexDescription
+struct VertexDescriptor
 {
-  VertexInputDescription _input;
-  std::vector<VertexAttributeDescription> _attributes;
+  VertexInputDescriptor _input;
+  std::vector<VertexAttributeDescriptor> _attributes;
 };
 
-struct ShaderDescription
+struct ShaderDescriptor
 {
-    std::filesystem::path  _spvFile;
-    VertexDescription _vertexDescription;
+    ShaderStage _stage;
+    VertexDescriptor _vertexDescriptor;
 };
 
 #endif //RAIIENGINE_SHADER_DESCRIPTION_HPP

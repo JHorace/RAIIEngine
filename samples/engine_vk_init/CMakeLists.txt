@@ -1,6 +1,6 @@
 # Created 2022
 # James Sumihiro and Bryan Johnson
-# sample_engine_vk_init
+# engine_vk_init
 
 project(sample_engine_vk_init)
 

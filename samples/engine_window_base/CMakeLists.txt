@@ -1,6 +1,6 @@
 # Created 2022
 # James Sumihiro and Bryan Johnson
-# sample_engine_window_base
+# engine_window_base
 
 project(sample_engine_window_base
         VERSION 0.1)

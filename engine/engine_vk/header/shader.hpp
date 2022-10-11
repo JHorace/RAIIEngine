@@ -7,12 +7,10 @@
 
 #include "p_includes.hpp"
 #include <filesystem>
-#include "shader_description.hpp"
+#include "shader_descriptor.hpp"
 
 namespace Forge
 {
-  
-  
   class Shader
   {
   public:
@@ -23,7 +21,7 @@ namespace Forge
     };
     
     Shader(const vk::raii::Device & device, const std::vector<uint32_t> & spvBytes, Stage stage);
-    Shader(const ShaderDescription& desc);
+    Shader(const ShaderDescriptor& desc);
     
     //static std::vector<uint32_t> CompileSPV(const std::filesystem::path & filePath, Stage stage);
   private:
