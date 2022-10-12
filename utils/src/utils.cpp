@@ -4,6 +4,7 @@
 
 #include "utils.hpp"
 #include <fstream>
+
 std::vector<char> LoadBinaryFile(const std::filesystem::path& binPath)
 {
   std::ifstream input(binPath, std::ios::binary);

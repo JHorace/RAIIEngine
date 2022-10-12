@@ -83,4 +83,9 @@ namespace Forge
   {
     return _images[currentImageIndex];
   }
+  
+  const Image & Swapchain::GetImage(uint32_t index) const
+  {
+    return _images[index];
+  }
 }

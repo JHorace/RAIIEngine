@@ -20,14 +20,15 @@ namespace Forge
       fragment
     };
     
-    Shader(const vk::raii::Device & device, const std::vector<uint32_t> & spvBytes, Stage stage);
+    Shader(const vk::raii::Device & device, const std::vector<char> & spvBytes, Stage stage);
     Shader(const ShaderDescriptor& desc);
     
-    //static std::vector<uint32_t> CompileSPV(const std::filesystem::path & filePath, Stage stage);
+    vk::PipelineShaderStageCreateInfo CreateCI();
   private:
-    vk::ShaderModuleCreateInfo CIBuilder(const std::vector<uint32_t> & spvBytes);
+    vk::ShaderModuleCreateInfo CIBuilder(const std::vector<char> & spvBytes);
     
     vk::raii::ShaderModule _shaderModule;
+    vk::ShaderStageFlagBits _stage;
   };
 }
 

@@ -16,6 +16,14 @@ namespace Forge
   
   }
   
+  void DeviceManager::Update()
+  {
+    for (auto & device : _logicalDevices)
+    {
+      device.Update(_surfaces[0]);
+    }
+  }
+  
   const vk::raii::PhysicalDevice & DeviceManager::operator*() const
   {
     return _vkPhysicalDevice;
@@ -34,13 +42,13 @@ namespace Forge
         .queueCount = 1,
         .pQueuePriorities = &queuePriority
       };
-    logicalDevices.emplace_back(LogicalDevice{_vkPhysicalDevice, deviceQueueCI, extensions, layers});
-    return logicalDevices.size() - 1;
+    _logicalDevices.emplace_back(LogicalDevice{_vkPhysicalDevice, deviceQueueCI, extensions, layers});
+    return _logicalDevices.size() - 1;
   }
   
   void DeviceManager::AddSurface(vk::raii::SurfaceKHR && surfaceHandle)
   {
     _surfaces.emplace_back(_vkPhysicalDevice, std::move(surfaceHandle));
-    logicalDevices.back().CreateSwapchainFromSurface(_surfaces.back());
+    _logicalDevices.back().CreateSwapchainFromSurface(_surfaces.back());
   }
 }

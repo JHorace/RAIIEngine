@@ -15,9 +15,14 @@ namespace Forge
   class Pipeline
   {
   public:
-    Pipeline(const vk::raii::Device & device);
+    explicit Pipeline(const vk::raii::Device & device,
+                      const std::vector<vk::PipelineShaderStageCreateInfo> & shaderStageCIs);
+    
+    const vk::raii::Pipeline & operator*();
+    
     vk::PipelineLayoutCreateInfo PipelineLayoutCIBuilder();
-    vk::GraphicsPipelineCreateInfo PipelineCIBuilder();
+    vk::GraphicsPipelineCreateInfo PipelineCIBuilder(
+      const std::vector<vk::PipelineShaderStageCreateInfo> & shaderStageCIs);
     
     vk::RenderingInfo _renderingInfo;
     vk::RenderingAttachmentInfo _colorAttachInfo;

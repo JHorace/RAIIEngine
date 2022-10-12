@@ -18,6 +18,8 @@ namespace Forge
     explicit DeviceManager(vk::raii::PhysicalDevice physicalDevice);
     const vk::raii::PhysicalDevice & operator*() const;
     
+    void Update();
+    
     unsigned int AddLogicalDevice(
       std::vector<const char *> extensions,
       std::vector<const char *> layers);
@@ -32,7 +34,7 @@ namespace Forge
     vk::raii::PhysicalDevice _vkPhysicalDevice;
     QueueManager _queueManager;
     std::vector<Surface> _surfaces;
-    std::vector<LogicalDevice> logicalDevices;
+    std::vector<LogicalDevice> _logicalDevices;
   public:
     const vk::PhysicalDeviceProperties _vkProperties;
   };

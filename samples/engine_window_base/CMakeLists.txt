@@ -15,7 +15,12 @@ target_link_libraries(sample_engine_window_base PRIVATE
   engine_vk
   window_handler)
 
-glsl_to_spirv(sample_engine_window_base ${SHARED_ASSETS_PATH}/shaders/simple.vert)
+set(shader_target
+  ${SHARED_ASSETS_PATH}/shaders/simple.vert
+  ${SHARED_ASSETS_PATH}/shaders/simple.frag
+  )
+
+glsl_to_spirv(engine_vk shader_target)
 
 generate_config_file(sample_engine_window_base)
 

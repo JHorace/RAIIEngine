@@ -28,6 +28,7 @@ namespace Forge
     
     const vk::raii::SwapchainKHR & operator*() const;
     const Image & GetCurrentImage() const;
+    const Image & GetImage(uint32_t index) const;
   private:
     
     vk::SwapchainCreateInfoKHR CIBuilder(const Surface & surface);

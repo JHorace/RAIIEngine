@@ -5,12 +5,12 @@
 
 namespace Forge
 {
-  Pipeline::Pipeline(const vk::raii::Device & device)
-  :
-  _pipelineLayout{device, PipelineLayoutCIBuilder()},
-  _pipeline{device, nullptr, PipelineCIBuilder()}
-  {
-  }
+  Pipeline::Pipeline(const vk::raii::Device & device,
+                     const std::vector<vk::PipelineShaderStageCreateInfo> & shaderStageCIs)
+    :
+    _pipelineLayout{device, PipelineLayoutCIBuilder()},
+    _pipeline{device, nullptr, PipelineCIBuilder(shaderStageCIs)}
+  {}
   
   vk::PipelineLayoutCreateInfo Pipeline::PipelineLayoutCIBuilder()
   {
@@ -20,14 +20,15 @@ namespace Forge
     return pipelineLayoutCI;
   }
   
-  vk::GraphicsPipelineCreateInfo Pipeline::PipelineCIBuilder()
+  vk::GraphicsPipelineCreateInfo Pipeline::PipelineCIBuilder(
+    const std::vector<vk::PipelineShaderStageCreateInfo> & shaderStageCIs)
   {
     _colorAttachInfo = vk::RenderingAttachmentInfo{
       .imageLayout = vk::ImageLayout::eAttachmentOptimal,
       .loadOp = vk::AttachmentLoadOp::eClear,
       .storeOp = vk::AttachmentStoreOp::eStore,
     };
-  
+    
     _renderingInfo = vk::RenderingInfo{
       .renderArea = vk::Rect2D(),
       .layerCount = 1,
@@ -39,7 +40,8 @@ namespace Forge
     
     vk::GraphicsPipelineCreateInfo graphicsPipelineCI{
       .pNext = nullptr,
-      .stageCount = 2, // TODO: make this more flexible
+      .stageCount = (uint32_t)shaderStageCIs.size(),
+      .pStages = shaderStageCIs.data(),
       .pVertexInputState = &DefaultPipeline::emptyVertexInputCI,
       .pInputAssemblyState = &DefaultPipeline::inputAssemblyCI,
       .pViewportState = &DefaultPipeline::pipelineStateCI,
@@ -49,13 +51,14 @@ namespace Forge
       .pColorBlendState = &DefaultPipeline::colorBlendCI,
       .pDynamicState = &DefaultPipeline::dynamicStateCI,
       .layout = *_pipelineLayout,
-      .renderPass = nullptr
-      //.stageCount = _shaderStageCIs.size(),
-      //.pStages = _shaderStageCIs.data()
+      .renderPass = VK_NULL_HANDLE
     };
     
     return graphicsPipelineCI;
   }
   
-  
+  const vk::raii::Pipeline & Pipeline::operator*()
+  {
+    return _pipeline;
+  }
 }

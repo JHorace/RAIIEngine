@@ -66,6 +66,7 @@ int main(int argc,
   while (!glfwWindowShouldClose(window))
   {
     glfwPollEvents();
+    engine->Update();
   }
   
   glfwTerminate();

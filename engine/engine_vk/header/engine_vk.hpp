@@ -28,7 +28,7 @@ namespace Forge
   {
   public:
     EngineVK(const EngineConfigInfo& configInfo, std::vector<const char *> extensions, std::vector<const char *> layers);
-    void Render() override;
+    void Update() override;
     virtual void AddWindow(Forge::NativeWindow window) final;
   private:
     static bool CheckValidationLayerSupport(const vk::raii::Context & context, std::vector<const char *> const & validationLayers);

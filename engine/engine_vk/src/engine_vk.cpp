@@ -43,9 +43,12 @@ namespace Forge
     _deviceManagers[0].AddLogicalDevice(device_extensions, layers);
   }
   */
-  void EngineVK::Render()
+  void EngineVK::Update()
   {
-  
+    for (auto & deviceManager : _deviceManagers)
+    {
+      deviceManager.Update();
+    }
   }
   
  /*

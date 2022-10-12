@@ -18,7 +18,8 @@ add_library(engine_vk STATIC
   src/command_dispatch.cpp header/command_dispatch.hpp
   src/pipeline.cpp header/pipeline.hpp
   src/shader.cpp header/shader.hpp
-        header/conversions.hpp)
+  header/conversions.hpp)
+
 
 target_compile_features(engine_vk PRIVATE
   cxx_std_20
@@ -28,13 +29,14 @@ target_compile_features(engine_vk PRIVATE
 target_link_libraries(engine_vk PUBLIC
   i_engine
   glfw
-        )
+  )
 
 target_link_libraries(engine_vk PRIVATE
   Vulkan::Vulkan
   spdlog::spdlog
   render_descriptor
-        )
+  utils
+  )
 
 target_include_directories(engine_vk PUBLIC include/)
 target_include_directories(engine_vk PRIVATE header/)

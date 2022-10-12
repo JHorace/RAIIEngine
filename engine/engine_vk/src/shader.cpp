@@ -10,53 +10,35 @@
 
 namespace Forge
 {
+  const std::unordered_map<Shader::Stage, vk::ShaderStageFlagBits> stageMap{
+    {Shader::Stage::vertex,   vk::ShaderStageFlagBits::eVertex},
+    {Shader::Stage::fragment, vk::ShaderStageFlagBits::eFragment}
+  };
   
   Shader::Shader(const vk::raii::Device & device,
-                 const std::vector<uint32_t> & spvBytes,
+                 const std::vector<char> & spvBytes,
                  Stage stage)
     :
-    _shaderModule{device, CIBuilder(spvBytes)}
-  {
+    _shaderModule{device, CIBuilder(spvBytes)},
+    _stage(stageMap.at(stage))
+  {}
   
-  }
-  
-  vk::ShaderModuleCreateInfo Shader::CIBuilder(const std::vector<uint32_t> & spvBytes)
+  vk::ShaderModuleCreateInfo Shader::CIBuilder(const std::vector<char> & spvBytes)
   {
+    auto code = reinterpret_cast<const uint32_t *>(spvBytes.data());
+    
     return vk::ShaderModuleCreateInfo{
       .codeSize = spvBytes.size(),
-      .pCode = spvBytes.data()
+      .pCode = code
     };
   }
   
-  // TODO: Move shader compilation out of Shader and/or out of Engine entirely.
-  
-  // Naively dumps a file into a string.
-  std::string DumpFile(const std::filesystem::path & relative_path)
+  vk::PipelineShaderStageCreateInfo Shader::CreateCI()
   {
-    std::ifstream file_stream(std::filesystem::absolute(relative_path));
-    
-    if (!file_stream.good())
-      std::cout << std::filesystem::absolute(relative_path).string() << ": " << strerror(errno) << "\n";
-    
-    return (std::stringstream() << file_stream.rdbuf()).str();
-  }
-  
-  /*
-  std::vector<uint32_t> Shader::CompileSPV(const std::filesystem::path & filePath,
-                                           Shader::Stage stage)
-  {
-    static std::unordered_map<Shader::Stage, shaderc_shader_kind> stageMap{
-      {Shader::Stage::vertex,   shaderc_shader_kind::shaderc_vertex_shader},
-      {Shader::Stage::fragment, shaderc_shader_kind::shaderc_fragment_shader}
+    return vk::PipelineShaderStageCreateInfo{
+      .stage = _stage,
+      .module = *_shaderModule,
+      .pName = "main"
     };
-    
-    auto src = DumpFile(filePath);
-    shaderc::Compiler compiler;
-    auto vertResult = compiler.CompileGlslToSpv(src, stageMap[stage], filePath.filename().generic_string().c_str());
-    
-    // TODO print error/warning messages.
-    
-    return std::vector<uint32_t>{vertResult.begin(), vertResult.end()};
   }
-   */
 }

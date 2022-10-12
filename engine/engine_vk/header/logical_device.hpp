@@ -26,6 +26,8 @@ namespace Forge
       std::vector<const char *> extensions,
       std::vector<const char *> layers);
     
+    void Update(const Surface & surface);
+    
     void CreateSwapchainFromSurface(const Surface & surface);
     
     void CreateDefaultPipeline();
@@ -41,10 +43,14 @@ namespace Forge
     LogicalDevice(const LogicalDevice &) = delete;
     LogicalDevice operator=(const LogicalDevice &) = delete;
   private:
+    void Draw(const Surface & surface);
+    
     vk::DeviceCreateInfo CIBuilder(
       vk::DeviceQueueCreateInfo & deviceQueueCI,
       std::vector<const char *> & extensions,
       std::vector<const char *> & layers);
+    
+    vk::PhysicalDeviceDynamicRenderingFeatures _dynamicRenderingFeatures;
   public:
     std::vector<Shader> _shaders;
     std::vector<Pipeline> _pipelines;
