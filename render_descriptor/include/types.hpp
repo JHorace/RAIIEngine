@@ -35,7 +35,7 @@ namespace Forge
   };
   
   
-  ForgeType ForgeTypeFromPrimitiveAndDimensions(ForgeType baseType, unsigned numRows, unsigned numCols = 0)
+  constexpr ForgeType ForgeTypeFromBaseTypeAndDimensions(ForgeType baseType, unsigned numRows, unsigned numCols = 0)
   {
       return (ForgeType)(baseType + numRows);
   }

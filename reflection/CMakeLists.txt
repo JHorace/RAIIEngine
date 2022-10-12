@@ -10,3 +10,4 @@ target_link_libraries(reflection PRIVATE spirv-cross-core
         spirv-cross-reflect)
 
 target_include_directories(reflection PUBLIC include)
+target_include_directories(reflection PRIVATE header)

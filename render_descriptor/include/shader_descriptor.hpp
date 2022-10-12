@@ -7,7 +7,7 @@
 
 #include <filesystem>
 #include <vector>
-#include "formats.hpp"
+#include "types.hpp"
 
 enum class ShaderStage
 {
@@ -19,7 +19,7 @@ struct VertexAttributeDescriptor
 {
     unsigned _location;
     unsigned _binding;
-    Forge::Format _format;
+    Forge::ForgeType _type;
     unsigned _offset;
 };
 
