@@ -44,20 +44,28 @@ namespace Forge
     LogicalDevice operator=(const LogicalDevice &) = delete;
   private:
     void Draw(const Surface & surface);
+    void PresentToQueue();
     
     vk::DeviceCreateInfo CIBuilder(
       vk::DeviceQueueCreateInfo & deviceQueueCI,
       std::vector<const char *> & extensions,
       std::vector<const char *> & layers);
+  
     
     vk::PhysicalDeviceDynamicRenderingFeatures _dynamicRenderingFeatures;
-  public:
-    std::vector<Shader> _shaders;
-    std::vector<Pipeline> _pipelines;
+
     vk::raii::Device _vkDevice;
-    std::vector<Swapchain> _swapchains;
+  
     uint32_t _presentQueueFamilyIndex;
     CommandDispatch _commandDispatch;
+    
+    vk::raii::Semaphore _imageAvailableSemaphore;
+    vk::raii::Semaphore _presentReadySemaphore;
+    vk::raii::Fence _drawReadyFence;
+  
+    std::vector<Swapchain> _swapchains;
+    std::vector<Shader> _shaders;
+    std::vector<Pipeline> _pipelines;
   };
 }
 

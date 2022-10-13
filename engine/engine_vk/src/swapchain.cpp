@@ -9,9 +9,7 @@ namespace Forge
   Swapchain::Swapchain(const vk::raii::Device & device,
                        const Surface & surface)
     :
-    _vkSwapchain{device, CIBuilder(surface)},
-    _imageAcquiredSemaphore{device, {}},
-    _drawReadyFence{device, {}}
+    _vkSwapchain{device, CIBuilder(surface)}
   {
     auto images = _vkSwapchain.getImages();
     
@@ -39,7 +37,8 @@ namespace Forge
     for (auto & image: images)
     {
       imageViewCreateInfo.image = image;
-      _images.emplace_back(Image{image, vk::raii::ImageView(device, imageViewCreateInfo), surface._surfaceFormat.format});
+      _images.emplace_back(
+        Image{image, vk::raii::ImageView(device, imageViewCreateInfo), surface._surfaceFormat.format});
     }
     
     
@@ -68,24 +67,31 @@ namespace Forge
       };
   }
   
-  void Swapchain::Update()
-  {
-    // TODO change timeout to be non-zero?
-    auto [result, image] = _vkSwapchain.acquireNextImage(0, *_imageAcquiredSemaphore);
-    
-    if (result == vk::Result::eSuccess)
-    {
-      currentImageIndex = image;
-    }
-  }
-  
-  const Image & Swapchain::GetCurrentImage() const
-  {
-    return _images[currentImageIndex];
-  }
   
   const Image & Swapchain::GetImage(uint32_t index) const
   {
     return _images[index];
   }
+  
+  void Swapchain::Update(vk::raii::Semaphore & imageAcquiredSemaphore)
+  {
+    // TODO change timeout to be non-zero?
+    auto [result, image] = _vkSwapchain.acquireNextImage(0, *imageAcquiredSemaphore);
+    
+    if (result == vk::Result::eSuccess)
+    {
+      _currentImageIndex = image;
+    }
+  }
+  
+  uint32_t Swapchain::GetCurrentImageIndex() const
+  {
+    return _currentImageIndex;
+  }
+  
+  const Image & Swapchain::GetCurrentImage() const
+  {
+    return _images[_currentImageIndex];
+  }
+  
 }

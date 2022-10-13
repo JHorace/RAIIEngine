@@ -24,10 +24,12 @@ namespace Forge
     Swapchain(const vk::raii::Device & device,
               const Surface & surface);
     
-    void Update();
+    void Update(vk::raii::Semaphore & imageAcquiredSemaphore);
     
     const vk::raii::SwapchainKHR & operator*() const;
+    
     const Image & GetCurrentImage() const;
+    uint32_t GetCurrentImageIndex() const;
     const Image & GetImage(uint32_t index) const;
   private:
     
@@ -35,10 +37,9 @@ namespace Forge
     
     vk::raii::SwapchainKHR _vkSwapchain;
     std::vector<Image> _images;
-    vk::raii::Semaphore _imageAcquiredSemaphore;
-    vk::raii::Fence _drawReadyFence;
     
-    uint32_t currentImageIndex;
+    uint32_t _currentImageIndex;
+    bool _imageReady;
   };
 }
 

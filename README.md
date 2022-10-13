@@ -10,7 +10,7 @@ Engine ownership structure:
     IEngine
         Context
         Instance
-        Renderer
+    ??? Renderer ???
         Device Manager (Physical Device)
             LogicalDevice(s)
                 Swapchain(s)
@@ -28,3 +28,24 @@ Engine ownership structure:
 
     Scene
         Vertices
+
+
+Semaphores
+
+    _imageAvailableSemaphore
+        Stored: LogicalDevice (eventually Renderer)
+        Signal: Swapchain::Update (acquireNextImage)
+        Wait: LogicalDevice::Draw (submit)
+
+    _presentReadySemaphore
+        Stored: LogicalDevice (eventually Renderer)
+        Signal: LogicalDevice::Draw (submit)
+        Wait: Swapchain::PresentCurrentImage (present)
+
+Fences
+
+    _drawReadyFence
+        Stored: LogicalDevice (eventually Renderer)
+        Sent: LogicalDevice::Draw (submit)
+        Wait: LogicalDevice::Update (before draw)
+

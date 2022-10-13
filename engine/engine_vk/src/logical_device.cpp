@@ -8,6 +8,13 @@
 
 namespace Forge
 {
+  const vk::SemaphoreCreateInfo semaphoreCI{
+    .pNext = 0
+  };
+  const vk::FenceCreateInfo fenceCI{
+    .pNext = 0,
+    .flags = vk::FenceCreateFlagBits::eSignaled
+  };
   
   LogicalDevice::LogicalDevice(
     const vk::raii::PhysicalDevice & physDevice,
@@ -17,19 +24,32 @@ namespace Forge
     :
     _vkDevice{physDevice, CIBuilder(deviceQueueCI, extensions, layers)},
     _presentQueueFamilyIndex{deviceQueueCI.queueFamilyIndex},
-    _commandDispatch{_vkDevice, 3, deviceQueueCI.queueFamilyIndex}
-  {
-  }
+    _commandDispatch{_vkDevice, 3, deviceQueueCI.queueFamilyIndex},
+    _imageAvailableSemaphore{_vkDevice, semaphoreCI},
+    _presentReadySemaphore{_vkDevice, semaphoreCI},
+    _drawReadyFence{_vkDevice, fenceCI}
+  {}
   
   void LogicalDevice::Update(const Surface & surface)
   {
-    Draw(surface);
+    _swapchains[0].Update(_imageAvailableSemaphore);
+    
+    auto result = _vkDevice.waitForFences(*_drawReadyFence, true, 0);
+    if (result == vk::Result::eSuccess)
+    {
+      _vkDevice.resetFences(*_drawReadyFence);
+      Draw(surface);
+      PresentToQueue();
+    }
   }
   
   void LogicalDevice::Draw(const Surface & surface)
   {
     auto & commandBuffer = _commandDispatch.GetCommandBuffer();
-    auto & currentImage = _swapchains[0].GetImage(0);
+    auto & currentImage = _swapchains[0].GetCurrentImage();
+    const auto & queue = _vkDevice.getQueue(_presentQueueFamilyIndex, 0);
+    
+    commandBuffer.reset();
   
     vk::CommandBufferBeginInfo beginInfo{};
     commandBuffer.begin(beginInfo);
@@ -118,20 +138,43 @@ namespace Forge
       );
     
     commandBuffer.end();
-    
-    const auto & queue = _vkDevice.getQueue(_presentQueueFamilyIndex, 0);
+  
+    vk::PipelineStageFlags waitStage = vk::PipelineStageFlagBits::eColorAttachmentOutput;
     
     vk::SubmitInfo submitInfo{
-      .waitSemaphoreCount = 0,
-      .pWaitSemaphores = nullptr,
+      .waitSemaphoreCount = 1,
+      .pWaitSemaphores = &*_imageAvailableSemaphore,
+      .pWaitDstStageMask = &waitStage,
       .commandBufferCount = 1,
-      .pCommandBuffers = &(*commandBuffer),
-      .signalSemaphoreCount = 0,
-      .pSignalSemaphores = nullptr
+      .pCommandBuffers = &*commandBuffer,
+      .signalSemaphoreCount = 1,
+      .pSignalSemaphores = &*_presentReadySemaphore
     };
     
-    queue.submit(submitInfo);
+    queue.submit(submitInfo, *_drawReadyFence);
   }
+  
+  void LogicalDevice::PresentToQueue()
+  {
+    const auto & queue = _vkDevice.getQueue(_presentQueueFamilyIndex, 0);
+    
+    uint32_t imageIndex = _swapchains[0].GetCurrentImageIndex();
+    
+    vk::PresentInfoKHR presentInfo{
+      .waitSemaphoreCount = 1,
+      .pWaitSemaphores = &*_presentReadySemaphore,
+      .swapchainCount = 1,
+      .pSwapchains = &(**_swapchains[0]),
+      .pImageIndices = &imageIndex
+    };
+  
+    auto result = queue.presentKHR(presentInfo);
+  
+    if (result == vk::Result::eSuccess)
+    {}
+  }
+  
+  
   
   const vk::raii::Device & LogicalDevice::operator*() const
   {
