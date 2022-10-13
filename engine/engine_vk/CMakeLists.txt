@@ -18,7 +18,7 @@ add_library(engine_vk STATIC
   src/command_dispatch.cpp header/command_dispatch.hpp
   src/pipeline.cpp header/pipeline.hpp
   src/shader.cpp header/shader.hpp
-  header/conversions.hpp)
+  header/conversions.hpp src/buffer.cpp header/buffer.hpp header/device_memory_manager.hpp src/device_memory_manager.cpp)
 
 
 target_compile_features(engine_vk PRIVATE
