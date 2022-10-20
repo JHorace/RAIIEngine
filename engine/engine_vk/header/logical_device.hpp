@@ -12,6 +12,7 @@
 #include "command_dispatch.hpp"
 #include "pipeline.hpp"
 #include "shader.hpp"
+#include "device_memory_manager.hpp"
 
 namespace Forge
 {
@@ -58,6 +59,7 @@ namespace Forge
   
     uint32_t _presentQueueFamilyIndex;
     CommandDispatch _commandDispatch;
+    DeviceMemoryManager _deviceMemoryManager;
     
     vk::raii::Semaphore _imageAvailableSemaphore;
     vk::raii::Semaphore _presentReadySemaphore;

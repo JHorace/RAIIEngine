@@ -76,7 +76,7 @@ namespace Forge
   void Swapchain::Update(vk::raii::Semaphore & imageAcquiredSemaphore)
   {
     // TODO change timeout to be non-zero?
-    auto [result, image] = _vkSwapchain.acquireNextImage(0, *imageAcquiredSemaphore);
+    auto [result, image] = _vkSwapchain.acquireNextImage(1000000, *imageAcquiredSemaphore);
     
     if (result == vk::Result::eSuccess)
     {

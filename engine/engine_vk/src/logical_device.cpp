@@ -25,10 +25,16 @@ namespace Forge
     _vkDevice{physDevice, CIBuilder(deviceQueueCI, extensions, layers)},
     _presentQueueFamilyIndex{deviceQueueCI.queueFamilyIndex},
     _commandDispatch{_vkDevice, 3, deviceQueueCI.queueFamilyIndex},
+    _deviceMemoryManager{_vkDevice, physDevice.getMemoryProperties()},
     _imageAvailableSemaphore{_vkDevice, semaphoreCI},
     _presentReadySemaphore{_vkDevice, semaphoreCI},
     _drawReadyFence{_vkDevice, fenceCI}
-  {}
+  {
+    auto & commandBuffer = _commandDispatch.GetCommandBuffer();
+    const auto & queue = _vkDevice.getQueue(_presentQueueFamilyIndex, 0);
+    
+    _deviceMemoryManager.StageVBO(commandBuffer, queue);
+  }
   
   void LogicalDevice::Update(const Surface & surface)
   {
@@ -83,7 +89,8 @@ namespace Forge
       .imageLayout = vk::ImageLayout::eAttachmentOptimal,
       .loadOp = vk::AttachmentLoadOp::eClear,
       .storeOp = vk::AttachmentStoreOp::eStore,
-      .clearValue = {std::array{1.f, 0.f, 0.f, 1.f}}
+      //.clearValue = {std::array{0.f, 0.f, 0.f, 1.f}}
+      .clearValue = {clearColors[currentImageIndex]}
     };
     vk::RenderingInfo renderInfo{
       .renderArea = vk::Rect2D{{0}, surface._surfaceCapabilities.currentExtent},
@@ -110,6 +117,8 @@ namespace Forge
     commandBuffer.setScissor(0, scissor);
     
     commandBuffer.bindPipeline(vk::PipelineBindPoint::eGraphics, **_pipelines[0]);
+    
+    commandBuffer.bindVertexBuffers(0, **_deviceMemoryManager.GetVBO(), vk::DeviceSize{0});
     
     commandBuffer.draw(3, 1, 0, 0);
     

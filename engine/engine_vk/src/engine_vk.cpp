@@ -6,6 +6,10 @@
 #include "engine_defaults.hpp"
 #include "engine_vk.hpp"
 
+const int FPS_TARGET = 3;
+const int FRAME_MS = 1000 / FPS_TARGET;
+typedef std::chrono::duration<int, std::milli> millisecs_t;
+
 namespace Forge
 {
   //bool IsPhysicalDeviceSuitable(vk::raii::PhysicalDevice const & physDevice)
@@ -43,12 +47,20 @@ namespace Forge
     _deviceManagers[0].AddLogicalDevice(device_extensions, layers);
   }
   */
+
   void EngineVK::Update()
   {
+    cur_time = std::chrono::steady_clock::now();
+    millisecs_t duration(std::chrono::duration_cast<millisecs_t>(cur_time - prev_time));
+    int ms_elapsed = duration.count();
+    if (ms_elapsed < FRAME_MS)
+      return;
+      
+    prev_time = cur_time;
+    dt = (float)ms_elapsed / 1000.0f;
+    
     for (auto & deviceManager : _deviceManagers)
-    {
       deviceManager.Update();
-    }
   }
   
  /*

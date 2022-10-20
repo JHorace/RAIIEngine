@@ -19,8 +19,8 @@ namespace Forge
   {
     vk::DebugUtilsMessageSeverityFlagBitsEXT::eError
     | vk::DebugUtilsMessageSeverityFlagBitsEXT::eWarning
-    // | vk::DebugUtilsMessageSeverityFlagBitsEXT::eInfo |
-    // | vk::DebugUtilsMessageSeverityFlagBitsEXT::eVerbose
+    | vk::DebugUtilsMessageSeverityFlagBitsEXT::eInfo
+    //| vk::DebugUtilsMessageSeverityFlagBitsEXT::eVerbose
   };
 
   inline constexpr vk::DebugUtilsMessageTypeFlagsEXT MESSAGE_TYPE

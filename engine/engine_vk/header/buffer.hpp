@@ -20,8 +20,9 @@ namespace Forge
     
     
     void CopyFromBuffer(const vk::raii::CommandBuffer & commandBuffer,
+                        const vk::raii::Queue & queue,
                         const Buffer & otherBuffer,
-                        vk::DeviceSize size);
+                        vk::DeviceSize size = 0);
     void Bind();
     
     vk::raii::Buffer & operator*();
@@ -40,7 +41,7 @@ namespace Forge
                   vk::DeviceSize size,
                   vk::BufferUsageFlags usageFlags);
     
-    void MapMemory(void * srcData,
+    void MapMemory(const void * srcData,
                    size_t size);
   protected:
   };

@@ -2,6 +2,7 @@
 // James Sumihiro and Bryan Johnson
 //
 #include "buffer.hpp"
+#include "vertex.hpp"
 #include <optional>
 
 namespace Forge
@@ -61,13 +62,19 @@ namespace Forge
     _deviceMemory{CreateMemory(device, memoryProperties, _buffer, memoryPropertyFlags)},
     _size(size)
   {
-  
+    Bind();
   }
   
   void Buffer::CopyFromBuffer(const vk::raii::CommandBuffer & commandBuffer,
+                              const vk::raii::Queue & queue,
                               const Buffer & otherBuffer,
                               vk::DeviceSize size)
   {
+    if (size == 0)
+    {
+      size = _size;
+    }
+    
     vk::CommandBufferBeginInfo beginInfo{};
     vk::BufferCopy copyRegion{
       .size = size
@@ -76,6 +83,14 @@ namespace Forge
     commandBuffer.begin(beginInfo);
     commandBuffer.copyBuffer(**otherBuffer, *_buffer, copyRegion);
     commandBuffer.end();
+    
+    vk::SubmitInfo submitInfo{
+      .commandBufferCount = 1,
+      .pCommandBuffers = &*commandBuffer
+    };
+    
+    queue.submit(submitInfo);
+    queue.waitIdle();
   }
   
   void Buffer::Bind()
@@ -102,10 +117,10 @@ namespace Forge
            vk::MemoryPropertyFlagBits::eHostVisible
            | vk::MemoryPropertyFlagBits::eHostCoherent)
   {
-  
+    MapMemory(unitTriangle.data(), unitTriangle.size() * sizeof(Vertex));
   }
   
-  void StagingBuffer::MapMemory(void * srcData,
+  void StagingBuffer::MapMemory(const void * srcData,
                                 size_t size)
   {
     void * dstData = _deviceMemory.mapMemory(0, size);

@@ -20,12 +20,23 @@ namespace Forge
   const vk::MemoryPropertyFlags stagingProperties =
     vk::MemoryPropertyFlagBits::eHostVisible | vk::MemoryPropertyFlagBits::eHostCoherent;
   
-  DeviceMemoryManager::DeviceMemoryManager(const vk::raii::Device & _vkDevice,
+  DeviceMemoryManager::DeviceMemoryManager(const vk::raii::Device & device,
                                            const vk::PhysicalDeviceMemoryProperties & memoryProperties)
     :
-    _VBO{_vkDevice, memoryProperties, VBOSIZE, VBOUsage, VBOProperties},
-    _staging{_vkDevice, memoryProperties, VBOSIZE, stagingUsage}
+    _VBO{device, memoryProperties, VBOSIZE, VBOUsage, VBOProperties},
+    _staging{device, memoryProperties, VBOSIZE, stagingUsage}
   {
-    
+  
+  }
+  
+  void DeviceMemoryManager::StageVBO(const vk::raii::CommandBuffer & commandBuffer,
+                                     const vk::raii::Queue & queue)
+  {
+    _VBO.CopyFromBuffer(commandBuffer, queue, _staging);
+  }
+  
+  const Buffer & DeviceMemoryManager::GetVBO() const
+  {
+    return _VBO;
   }
 }

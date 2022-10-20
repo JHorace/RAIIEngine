@@ -39,7 +39,10 @@ namespace Forge
     Logger _logger;
     std::vector<DeviceManager> _deviceManagers;
     Renderer _renderer;
-
+  
+    std::chrono::steady_clock::time_point prev_time = std::chrono::steady_clock::now();
+    std::chrono::steady_clock::time_point cur_time;
+    float dt;
   };
 }
 

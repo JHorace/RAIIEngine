@@ -7,6 +7,7 @@
 
 #include "buffer.hpp"
 #include "command_dispatch.hpp"
+
 namespace Forge
 {
   
@@ -15,10 +16,13 @@ namespace Forge
   class DeviceMemoryManager
   {
   public:
-    DeviceMemoryManager(const vk::raii::Device & _vkDevice,
+    DeviceMemoryManager(const vk::raii::Device & device,
                         const vk::PhysicalDeviceMemoryProperties & memoryProperties);
+    
+    const Buffer & GetVBO() const;
+    void StageVBO(const vk::raii::CommandBuffer & commandBuffer,
+                  const vk::raii::Queue & queue);
   private:
-    void StageVBO();
     StagingBuffer _staging;
     Buffer _VBO;
   };

@@ -16,7 +16,7 @@ Engine ownership structure:
                 Swapchain(s)
                     DepthBuffer
                 Queue(s)
-                BufferManager (TODO)
+                DeviceMemoryManager
                 CommandDispatch
                     CommandPool(s)
                     CommandBuffer(s)
